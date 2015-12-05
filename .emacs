@@ -3,7 +3,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(backup-directory-alist (\` ((".*" . "~/.emacs_backups"))))
  '(c-basic-offset 4)
+ '(company-eclim-auto-save nil)
  '(company-idle-delay 0)
  '(company-minimum-prefix-length 1)
  '(company-selection-wrap-around t)
@@ -12,7 +14,7 @@
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(debug-on-error nil)
- '(display-battery-mode t)
+ '(display-battery-mode nil)
  '(display-buffer-reuse-frames t)
  '(eclim-auto-save nil)
  '(eclim-eclipse-dirs
@@ -20,12 +22,14 @@
     ("/Applications/Eclipse.app/Contents/Eclipse" "/usr/lib/eclipse" "/usr/local/lib/eclipse" "/usr/share/eclipse")))
  '(eclim-executable "/Applications/Eclipse.app/Contents/Eclipse/eclim")
  '(eclim-problems-refresh-delay 0.1)
+ '(ediff-merge-split-window-function (quote split-window-vertically))
  '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(exec-path
    (quote
     ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/24.4/libexec/emacs/24.4/x86_64-apple-darwin13.4.0" "/usr/local/bin")))
  '(global-company-mode t)
+ '(global-eclim-mode nil)
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
  '(ido-mode (quote both) nil (ido))
@@ -40,7 +44,7 @@
  '(org-adapt-indentation nil)
  '(org-agenda-clockreport-parameter-plist
    (quote
-    (:link t :maxlevel 3 :step day :compact t :fileskip0 t :emphasize nil :formatter my-org-clocktable-notodo)))
+    (:link t :maxlevel 5 :step day :compact t :fileskip0 t :emphasize nil :formatter my-org-clocktable-notodo)))
  '(org-agenda-files (quote ("~/Dropbox/Mediasmiths/org/gtd.org")))
  '(org-agenda-prefix-format
    (quote
@@ -67,6 +71,7 @@
 "))))
  '(org-clock-history-length 10)
  '(org-clock-into-drawer t)
+ '(org-completion-use-ido t)
  '(org-default-notes-file "~/Documents/org/new_mobile.org")
  '(org-directory "~/Dropbox/Mediasmiths/org")
  '(org-export-html-postamble t)
@@ -85,11 +90,13 @@
     ((org-agenda-files :tag . "")
      ("~/Dropbox/Mediasmiths/org/gtd.org" :maxlevel . 3))))
  '(org-todo-keywords (quote ((sequence "TODO" "|" "WAITING" "|" "DONE"))))
+ '(rm-blacklist (quote (" MRev" " ,")))
  '(scroll-bar-mode nil)
  '(send-mail-function (quote mailclient-send-it))
- '(sgml-basic-offset 2)
+ '(sgml-basic-offset 2 t)
  '(show-paren-mode t)
- '(size-indication-mode t)
+ '(size-indication-mode nil)
+ '(sml/mode-width (quote full))
  '(sml/shorten-modes t)
  '(tab-width 4)
  '(tool-bar-mode nil)
@@ -103,11 +110,16 @@
  ;; If there is more than one, they won't work right.
  )
 
+(setenv "DOCKER_HOST" "tcp://192.168.99.100:2376")
+(setenv "DOCKER_MACHINE_NAME" "default")
+(setenv "DOCKER_TLS_VERIFY" "1")
+(setenv "DOCKER_CERT_PATH" "/Users/jacobhakansson/.docker/machine/machines/default")
+
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (global-set-key (kbd "C-c p") 'compile)
-
+(require 'smooth-scrolling)
 (global-set-key [(meta x)] (lambda ()
                              (interactive)
                              (or (boundp 'smex-cache)
@@ -118,6 +130,16 @@
 (toggle-frame-maximized)
 
 (sml/setup)
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode 1)
+
+(defun bind-ido-keys ()
+  "Keybindings for ido mode."
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-p")   'ido-prev-match))
+
+(add-hook 'ido-setup-hook #'bind-ido-keys)
+
 (require 'company)
 ;;(add-to-list 'company-backends 'company-tern)
 (eval-after-load 'company
@@ -234,6 +256,7 @@
 (global-set-key (kbd "s-l") 'show-todo-list)
 (global-set-key (kbd "s-i") 'org-select-clock-in)
 (global-set-key (kbd "s-k") 'org-capture)
+(global-set-key (kbd "s-g") 'org-clock-goto)
 
 ;; Set to the name of the file where new notes will be stored
 (setq org-mobile-inbox-for-pull "~/Documents/org/inbox.org")
