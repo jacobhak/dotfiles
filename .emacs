@@ -6,15 +6,15 @@
  '(backup-directory-alist (\` ((".*" . "~/.emacs_backups"))))
  '(c-basic-offset 4)
  '(company-eclim-auto-save nil)
- '(company-idle-delay 0)
+ '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 1)
  '(company-selection-wrap-around t)
+ '(compilation-scroll-output (quote first-error))
  '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes
    (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(debug-on-error nil)
- '(display-battery-mode nil)
  '(display-buffer-reuse-frames t)
  '(eclim-auto-save nil)
  '(eclim-eclipse-dirs
@@ -23,28 +23,58 @@
  '(eclim-executable "/Applications/Eclipse.app/Contents/Eclipse/eclim")
  '(eclim-problems-refresh-delay 0.1)
  '(ediff-merge-split-window-function (quote split-window-vertically))
+ '(editorconfig-mode t)
  '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(exec-path
    (quote
-    ("/usr/bin" "/bin" "/usr/sbin" "/sbin" "/usr/local/Cellar/emacs/24.4/libexec/emacs/24.4/x86_64-apple-darwin13.4.0" "/usr/local/bin")))
+    ("/usr/local/bin/" "/usr/bin/" "/bin/" "/usr/sbin/" "/sbin/" "/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin/" "/Users/jacobhakansson/.scripts/" "/Library/TeX/texbin/" "/Users/jacobhakansson/.rvm/bin/" "/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin" "/usr/local/Cellar/emacs/24.4/libexec/emacs/24.4/x86_64-apple-darwin13.4.0/")))
+ '(global-auto-revert-mode t)
  '(global-company-mode t)
- '(global-eclim-mode nil)
+ '(global-eclim-mode t)
+ '(helm-full-frame nil)
+ '(helm-reuse-last-window-split-state t)
+ '(helm-split-window-in-side-p t)
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
  '(ido-mode (quote both) nil (ido))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(jabber-alert-presence-hooks nil)
+ '(jiralib-url "http://mediasmithsnordics.atlassian.net:80/")
  '(js-curly-indent-offset 0)
- '(js2-basic-offset 4)
+ '(js-indent-level 2)
+ '(js2-basic-offset 2)
  '(js2-highlight-level 3)
+ '(js2-include-node-externs t)
+ '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
+ '(mocha-command "npm test")
+ '(mocha-options "")
+ '(mocha-which-node "")
+ '(ns-right-command-modifier (quote super))
+ '(ns-use-native-fullscreen t)
  '(nxml-child-indent 4)
  '(org-adapt-indentation nil)
  '(org-agenda-clockreport-parameter-plist
    (quote
     (:link t :maxlevel 5 :step day :compact t :fileskip0 t :emphasize nil :formatter my-org-clocktable-notodo)))
+ '(org-agenda-custom-commands
+   (quote
+    (("o" "Non TV4"
+      ((alltodo ""
+                ((org-agenda-tag-filter-preset
+                  (quote
+                   ("-TV4" "-later"))))))
+      nil)
+     ("4" "TV4"
+      ((alltodo ""
+                ((org-agenda-overriding-header "")
+                 (org-agenda-prefix-format "")
+                 (org-agenda-tag-filter-preset
+                  (quote
+                   ("TV4" "@all"))))))
+      nil))))
  '(org-agenda-files (quote ("~/Dropbox/Mediasmiths/org/gtd.org")))
  '(org-agenda-prefix-format
    (quote
@@ -72,7 +102,7 @@
  '(org-clock-history-length 10)
  '(org-clock-into-drawer t)
  '(org-completion-use-ido t)
- '(org-default-notes-file "~/Documents/org/new_mobile.org")
+ '(org-default-notes-file "~/Documents/org/new_mobile.org" t)
  '(org-directory "~/Dropbox/Mediasmiths/org")
  '(org-export-html-postamble t)
  '(org-export-html-postamble-format
@@ -89,15 +119,19 @@
    (quote
     ((org-agenda-files :tag . "")
      ("~/Dropbox/Mediasmiths/org/gtd.org" :maxlevel . 3))))
+ '(org-time-clocksum-use-effort-durations t)
  '(org-todo-keywords (quote ((sequence "TODO" "|" "WAITING" "|" "DONE"))))
+ '(projectile-enable-caching t)
+ '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
  '(scroll-bar-mode nil)
  '(send-mail-function (quote mailclient-send-it))
- '(sgml-basic-offset 2 t)
+ '(sgml-basic-offset 2)
  '(show-paren-mode t)
- '(size-indication-mode nil)
  '(sml/mode-width (quote full))
  '(sml/shorten-modes t)
+ '(split-height-threshold 1000)
+ '(split-width-threshold 1000)
  '(tab-width 4)
  '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
@@ -114,24 +148,61 @@
 (setenv "DOCKER_MACHINE_NAME" "default")
 (setenv "DOCKER_TLS_VERIFY" "1")
 (setenv "DOCKER_CERT_PATH" "/Users/jacobhakansson/.docker/machine/machines/default")
+(setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home")
+(setenv "MULE_HOME" "/Users/jacobhakansson/Developer/DevTools/mmc-distribution-mule-console-bundle-3.5.2-HF1/mule-enterprise-3.5.2")
+(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin:/Users/jacobhakansson/.scripts:/Library/TeX/texbin:/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")
+(setenv "NODE_PATH" "/usr/local/lib/node_modules/")
 
 (require 'package)
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 (global-set-key (kbd "C-c p") 'compile)
+
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+
 (require 'smooth-scrolling)
-(global-set-key [(meta x)] (lambda ()
-                             (interactive)
-                             (or (boundp 'smex-cache)
-                                 (smex-initialize))
-                             (global-set-key [(meta x)] 'smex)
-                             (smex)))
-(load-theme 'solarized-dark)
-(toggle-frame-maximized)
+;; (global-set-key [(meta x)] (lambda ()
+;;                              (interactive)
+;;                              (or (boundp 'smex-cache)
+;;                                  (smex-initialize))
+;;                              (global-set-key [(meta x)] 'smex)
+;;                              (smex)))
+;;(load-theme 'solarized-dark)
+(load-theme 'ample)
+(load-theme 'ample-light)
+;;(toggle-frame-maximized)
+
+(global-set-key (kbd "s-m") 'magit-status)
+;; helm
+(helm-mode 1)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(setq helm-M-x-fuzzy-match t)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "s-g") 'helm-google-suggest)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "s-p") 'helm-projectile)
+(global-set-key (kbd "s-P") 'helm-projectile-switch-project)
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+;; proj
+(projectile-global-mode)
+(setq projectile-completion-system 'helm)
+(helm-projectile-on)
+(setq projectile-switch-project-action 'helm-projectile)
+(global-set-key (kbd "s-r") 'rgrep)
+
+(setq kill-whole-line t)
+(defadvice yank (after indent-region activate)
+  (indent-region (region-beginning) (region-end) nil))
 
 (sml/setup)
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode 1)
+;;(require 'ido-ubiquitous)
+;;(ido-ubiquitous-mode 1)
 
 (defun bind-ido-keys ()
   "Keybindings for ido mode."
@@ -195,9 +266,9 @@
 								  indent-tabs-mode nil)))
 
 
-(require 'js2-mode) 
-(autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+;;(require 'js2-mode) 
+;;(autoload 'js2-mode "js2" nil t)
+;;(add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
 
 ;; Move more quickly
 (global-set-key (kbd "C-S-n")
@@ -222,6 +293,15 @@
 (defun delete-tern-process ()
   (interactive)
   (delete-process "Tern"))
+
+(defun js-hook ()
+  (tern-mode t)
+  (flycheck-mode t)
+;;  (paredit-mode t)
+;;  (emmet-mode t)
+  )
+
+(add-hook 'js-mode-hook 'js-hook)
 
 ;; AUTO-INDENT
 (setq auto-indent-mode-untabify-on-yank-or-paste nil)
@@ -256,7 +336,7 @@
 (global-set-key (kbd "s-l") 'show-todo-list)
 (global-set-key (kbd "s-i") 'org-select-clock-in)
 (global-set-key (kbd "s-k") 'org-capture)
-(global-set-key (kbd "s-g") 'org-clock-goto)
+;;(global-set-key (kbd "s-g") 'org-clock-goto)
 
 ;; Set to the name of the file where new notes will be stored
 (setq org-mobile-inbox-for-pull "~/Documents/org/inbox.org")
@@ -297,12 +377,18 @@
            for entries = (nth 2 tbl)
            do (cl-loop for entry in entries
                        for headline = (nth 1 entry)
-                       do (setq headline (replace-regexp-in-string "TODO \\|DONE " "" headline))
+                       do (setq headline (replace-regexp-in-string "TODO \\|DONE \\|STATIC " "" headline))
                        do (setcar (nthcdr 1 entry) headline)))
   (org-clocktable-write-default ipos tables params))
 
 (fset 'org-insert-current-task-id
 	  [?\C-c ?\C-x ?g ?\M-f ?\C-f ?\C-  ?\C-f ?\M-f ?\M-f ?\M-w ?\C-x ?b return ?\C-y ?> backspace ?:])
+
+(defun insert-current-branch-name ()
+  (interactive)
+  (shell-command "git rev-parse --abbrev-ref HEAD" t)
+  (move-end-of-line 1)
+  (delete-char 1))
 
 (defun magit-commit-and-insert-task ()
   (interactive)
@@ -364,3 +450,38 @@
 (defun find-marked-file ()
   (interactive)
   (find-file (buffer-substring (point) (mark))))
+
+(defun slick-cut (beg end)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (list (line-beginning-position) (line-beginning-position 2)))))
+
+(advice-add 'kill-region :before #'slick-cut)
+
+(defun slick-copy (beg end)
+  (interactive
+   (if mark-active
+       (list (region-beginning) (region-end))
+     (message "Copied line")
+     (list (line-beginning-position) (line-beginning-position 2)))))
+
+(advice-add 'kill-ring-save :before #'slick-copy)
+
+(defun weekly-report ()
+  (org-agenda-list)
+  (call-interactively 'org-agenda-clockreport-mode))
+
+(defun fetch-my-jira-issues ()
+  (interactive)
+  (start-process "fetch-jira" "*fetch-jira-output*" "node" "/Users/jacobhakansson/Developer/jira-org/fetch.js"))
+  
+(fset 'notToJson
+   [?\M-% ?, ?  return ?\" ?, ?  return ?! ?\C-a ?\M-% ?= return ?\" ?: ?  return ?! ?\C-e ?\C-b ?| backspace ?\" ?\C-d ?\C-a ?\C-f ?\" ?\M-% ?\" ?\[ return ?\[ return ?!])
+
+;; Open stuff at start up
+;;(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
+;;(weekly-report)
+;;(org-todo-list)
+
+(setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
