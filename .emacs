@@ -497,3 +497,19 @@
 ;;(org-todo-list)
 
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
+
+(defun indent-sexp-or-region ()
+  (interactive)
+  (if (not (use-region-p))
+      (indent-sexp)
+    (indent-for-tab-command)))
+
+(global-set-key (kbd "C-i") 'indent-sexp-or-region)
+
+(defun indent-sexp ()
+  (interactive)
+  (save-excursion
+    (paredit-backward-up)
+    (set-mark (point))
+    (forward-list)
+    (indent-region (region-beginning) (region-end))))
