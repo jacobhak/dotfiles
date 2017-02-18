@@ -175,6 +175,7 @@
 ;;(toggle-frame-maximized)
 
 (global-set-key (kbd "s-m") 'magit-status)
+
 ;; helm
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -188,6 +189,17 @@
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
+(advice-add 'helm-ff-filter-candidate-one-by-one
+            :around (lambda (fcn file)
+                      (unless (or (string-match
+                                   "\\(?:/\\|\\`\\)\\.\\{1,2\\}\\'" file)
+                                  (string-match "\\.DS_Store" file))
+                        (funcall fcn file))))
+
+(defadvice helm-display-mode-line (after undisplay-header activate)
+  (setq header-line-format nil)
+  (set-face-attribute 'helm-source-header nil :height 0.1))
 
 ;; proj
 (projectile-global-mode)
