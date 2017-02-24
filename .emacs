@@ -102,7 +102,7 @@
  '(org-clock-history-length 10)
  '(org-clock-into-drawer t)
  '(org-completion-use-ido t)
- '(org-default-notes-file "~/Documents/org/new_mobile.org" t)
+ '(org-default-notes-file "~/Documents/org/new_mobile.org")
  '(org-directory "~/Dropbox/Mediasmiths/org")
  '(org-export-html-postamble t)
  '(org-export-html-postamble-format
@@ -124,6 +124,7 @@
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
+ '(safe-local-variable-values (quote ((company-mode))))
  '(scroll-bar-mode nil)
  '(send-mail-function (quote mailclient-send-it))
  '(sgml-basic-offset 2)
@@ -443,6 +444,12 @@
   (org-export-insert-default-template 'default)
   (org-custom-document-settings))
 
+;; (defun org-hook ()
+;;   (truncate-lines t)
+;;   (word-wrap t)
+;;   (company-mode nil))
+;; doesn't work
+
 (defun show-todo-list ()
   (interactive)
   (switch-to-buffer "*Org Agenda(t)*"))
@@ -480,6 +487,7 @@
    [?\M-% ?, ?  return ?\" ?, ?  return ?! ?\C-a ?\M-% ?= return ?\" ?: ?  return ?! ?\C-e ?\C-b ?| backspace ?\" ?\C-d ?\C-a ?\C-f ?\" ?\M-% ?\" ?\[ return ?\[ return ?!])
 
 ;; Open stuff at start up
+(find-file "~/Documents/scratch.org")
 ;;(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
 ;;(weekly-report)
 ;;(org-todo-list)
