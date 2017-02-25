@@ -285,12 +285,12 @@
 (global-set-key (kbd "C-S-n")
                 (lambda ()
                   (interactive)
-                  (ignore-errors (next-line 5))))
+                  (forward-line 5)))
 
 (global-set-key (kbd "C-S-p")
                 (lambda ()
                   (interactive)
-                  (ignore-errors (previous-line 5))))
+                  (forward-line -5)))
 
 (defun copy-line (arg)
   "Copy lines (as many as prefix argument) in the kill ring"
@@ -302,6 +302,12 @@
 (defun delete-tern-process ()
   (interactive)
   (delete-process "Tern"))
+
+(use-package flycheck
+  :ensure t
+  :diminish flycheck-mode
+  :config
+  (global-flycheck-mode))
 
 (defun js-hook ()
   (tern-mode t)
