@@ -158,23 +158,27 @@
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 (global-set-key (kbd "C-c p") 'compile)
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (require 'smooth-scrolling)
-;; (global-set-key [(meta x)] (lambda ()
-;;                              (interactive)
-;;                              (or (boundp 'smex-cache)
-;;                                  (smex-initialize))
-;;                              (global-set-key [(meta x)] 'smex)
-;;                              (smex)))
-;;(load-theme 'solarized-dark)
-(load-theme 'ample)
-(load-theme 'ample-light)
-;;(toggle-frame-maximized)
-(set-default-font "Menlo 13")
+
+(use-package tao-theme
+             :ensure t
+             :init
+             (load-theme 'tao-yang t)
+             (set-face-italic 'font-lock-string-face nil)
+             (set-face-underline 'font-lock-type-face nil)
+             :config
+             (set-face-attribute 'fringe nil
+                                 :foreground (face-foreground 'default)
+                                 :background (face-background 'default)))
 
 (global-set-key (kbd "s-m") 'magit-status)
 
