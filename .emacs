@@ -174,6 +174,7 @@
 (load-theme 'ample)
 (load-theme 'ample-light)
 ;;(toggle-frame-maximized)
+(set-default-font "Menlo 13")
 
 (global-set-key (kbd "s-m") 'magit-status)
 
@@ -512,8 +513,9 @@
       (indent-sexp)
     (indent-for-tab-command)))
 
-(global-set-key (kbd "C-i") 'indent-sexp-or-region)
+(global-set-key (kbd "C-S-i") 'indent-sexp-or-region)
 
+(require 'paredit)
 (defun indent-sexp ()
   (interactive)
   (save-excursion
