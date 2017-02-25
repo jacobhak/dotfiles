@@ -1,0 +1,4 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: require
+# --
+const ${1:package} = require('$1$2');

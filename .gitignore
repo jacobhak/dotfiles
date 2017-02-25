@@ -1,3 +1,7 @@
 *
 !.gitignore
 !.emacs
+!/.emacs.d*
+!/.emacs.d/snippets*
+!/.emacs.d/snippets/**/*
+
