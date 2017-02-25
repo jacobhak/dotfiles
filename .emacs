@@ -512,3 +512,16 @@
     (forward-list)
     (indent-region (region-beginning) (region-end))))
 
+(defun capitalize-without-move ()
+  (interactive)
+  (save-excursion
+    (capitalize-word 1)))
+
+(global-set-key (kbd "M-c") 'capitalize-without-move)
+
+(defun lowercase-without-move ()
+  (interactive)
+  (save-excursion
+    (downcase-word 1)))
+
+(global-set-key (kbd "M-l") 'lowercase-without-move)
