@@ -162,12 +162,6 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(global-set-key (kbd "C-c p") 'compile)
-
-
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-(require 'smooth-scrolling)
 
 (use-package tao-theme
              :ensure t
@@ -180,9 +174,16 @@
                                  :foreground (face-foreground 'default)
                                  :background (face-background 'default)))
 
+(global-set-key (kbd "C-c p") 'compile)
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+(use-package paredit :ensure t)
+(use-package smooth-scrolling :ensure t)
+(use-package magit :ensure t)
 (global-set-key (kbd "s-m") 'magit-status)
 
 ;; helm
+(use-package helm :ensure t)
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (setq helm-M-x-fuzzy-match t)
@@ -208,6 +209,8 @@
   (set-face-attribute 'helm-source-header nil :height 0.1))
 
 ;; proj
+(use-package projectile :ensure t)
+(use-package helm-projectile :ensure t)
 (projectile-global-mode)
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
@@ -219,8 +222,6 @@
   (indent-region (region-beginning) (region-end) nil))
 
 (sml/setup)
-;;(require 'ido-ubiquitous)
-;;(ido-ubiquitous-mode 1)
 
 (defun bind-ido-keys ()
   "Keybindings for ido mode."
@@ -229,17 +230,11 @@
 
 (add-hook 'ido-setup-hook #'bind-ido-keys)
 
-(require 'company)
-;;(add-to-list 'company-backends 'company-tern)
-(eval-after-load 'company
-  '(progn
-	 (add-to-list 'company-backends 'company-robe)
-	 (add-to-list 'company-backends 'company-tern)
-	 (global-company-mode t)))
 
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
-(require 'yasnippet) ;; not yasnippet-bundle
+
+(use-package yasnippet :ensure t)
 (yas-global-mode 1)
 ;; Remove Yasnippet's default tab key binding
 (define-key yas-minor-mode-map (kbd "<tab>") nil)
@@ -248,6 +243,14 @@
 (define-key yas-minor-mode-map (kbd "<C-return>") 'yas-expand)
 
 ;; Company
+(use-package company :ensure t)
+;;(add-to-list 'company-backends 'company-tern)
+(eval-after-load 'company
+  '(progn
+	 (add-to-list 'company-backends 'company-robe)
+	 (add-to-list 'company-backends 'company-tern)
+	 (global-company-mode t)))
+
 (defun company-complete-common-or-cycle ()
   "Insert the common part of all candidates, or select the next one."
   (interactive)
@@ -263,12 +266,6 @@
      (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
      (define-key company-active-map [tab] 'company-complete-common-or-cycle)))
  
-;;(add-to-list 'load-path "~/.emacs.d/jdee-2.4.1/lisp")
-;;(autoload 'jde-mode "jde" "JDE mode" nil)
-;(setq jde-help-remote-file-exists-function '("beanshell"))
-;;  (setq auto-mode-alist
-;;  (append '(("\\.java\\'" . jde-mode)) auto-mode-alist))
-
 ;; ECLIM
 (require 'eclim)
 (global-eclim-mode)
@@ -283,10 +280,6 @@
 								  tab-width 4
 								  indent-tabs-mode nil)))
 
-
-;;(require 'js2-mode) 
-;;(autoload 'js2-mode "js2" nil t)
-;;(add-to-list 'auto-mode-alist '("\\.js$" . js-mode))
 
 ;; Move more quickly
 (global-set-key (kbd "C-S-n")
@@ -306,18 +299,13 @@
 		  (line-beginning-position (+ 1 arg)))
   (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
 
-(add-hook 'js2-mode-hook (lambda ()
-						   (tern-mode t)))
 (defun delete-tern-process ()
   (interactive)
   (delete-process "Tern"))
 
 (defun js-hook ()
   (tern-mode t)
-  (flycheck-mode t)
-;;  (paredit-mode t)
-;;  (emmet-mode t)
-  )
+  (flycheck-mode t))
 
 (add-hook 'js-mode-hook 'js-hook)
 
@@ -505,9 +493,6 @@
 
 ;; Open stuff at start up
 (find-file "~/Documents/scratch.org")
-;;(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
-;;(weekly-report)
-;;(org-todo-list)
 
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
 
@@ -519,7 +504,6 @@
 
 (global-set-key (kbd "C-S-i") 'indent-sexp-or-region)
 
-(require 'paredit)
 (defun indent-sexp ()
   (interactive)
   (save-excursion
@@ -527,3 +511,4 @@
     (set-mark (point))
     (forward-list)
     (indent-region (region-beginning) (region-end))))
+
