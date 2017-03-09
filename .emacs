@@ -59,22 +59,6 @@
  '(org-agenda-clockreport-parameter-plist
    (quote
     (:link t :maxlevel 5 :step day :compact t :fileskip0 t :emphasize nil :formatter my-org-clocktable-notodo)))
- '(org-agenda-custom-commands
-   (quote
-    (("o" "Non TV4"
-      ((alltodo ""
-                ((org-agenda-tag-filter-preset
-                  (quote
-                   ("-TV4" "-later"))))))
-      nil)
-     ("4" "TV4"
-      ((alltodo ""
-                ((org-agenda-overriding-header "")
-                 (org-agenda-prefix-format "")
-                 (org-agenda-tag-filter-preset
-                  (quote
-                   ("TV4" "@all"))))))
-      nil))))
  '(org-agenda-files (quote ("~/Dropbox/Mediasmiths/org/gtd.org")))
  '(org-agenda-prefix-format
    (quote
@@ -120,7 +104,6 @@
     ((org-agenda-files :tag . "")
      ("~/Dropbox/Mediasmiths/org/gtd.org" :maxlevel . 3))))
  '(org-time-clocksum-use-effort-durations t)
- '(org-todo-keywords (quote ((sequence "TODO" "|" "WAITING" "|" "DONE"))))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
@@ -357,6 +340,11 @@
  
 (setq org-default-notes-file "~/Documents/org/inbox.org")
 (define-key global-map "\C-cc" 'org-capture)
+
+(setq org-agenda-custom-commands
+      '(("w" "Agenda and Office-related tasks"
+         ((agenda "" ((org-agenda-span 1)))
+          (tags-todo "-SCHEDULED={.+}-DEADLINE={.+}")))))
  
 ;; CamelCase!!
 (add-hook 'prog-mode-hook 'subword-mode)
