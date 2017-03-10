@@ -59,7 +59,6 @@
  '(org-agenda-clockreport-parameter-plist
    (quote
     (:link t :maxlevel 5 :step day :compact t :fileskip0 t :emphasize nil :formatter my-org-clocktable-notodo)))
- '(org-agenda-files (quote ("~/Dropbox/Mediasmiths/org/gtd.org")))
  '(org-agenda-prefix-format
    (quote
     ((agenda . " %i %-12:c%?-12t% s")
@@ -321,6 +320,11 @@
 (defun org-select-clock-in ()
   (interactive)
   (org-clock-in '(4)))
+(defun org-show-work-list ()
+  (interactive)
+  (org-agenda "" "w"))
+(setq org-agenda-files (quote ("~/Dropbox/Mediasmiths/org/gtd.org" "~/.jiraorg/TVFOUR.org")))
+
 (global-set-key (kbd "C-c C-x C-o") 'org-clock-out)
 (global-set-key (kbd "C-c C-x C-x") 'org-clock-in-last)
 (global-set-key (kbd "C-c C-x C-i") 'org-clock-in)
@@ -328,9 +332,10 @@
 (global-set-key (kbd "C-c C-x t") 'org-insert-current-task-id)
 (global-set-key (kbd "C-c C-j") 'capture-jira-copy-command)
 (global-set-key (kbd "s-j") 'capture-jira-copy-command)
-(global-set-key (kbd "s-l") 'show-todo-list)
+(global-set-key (kbd "s-l") 'org-show-work-list)
 (global-set-key (kbd "s-i") 'org-select-clock-in)
 (global-set-key (kbd "s-k") 'org-capture)
+(global-set-key (kbd "C-c a") 'org-agenda)
 ;;(global-set-key (kbd "s-g") 'org-clock-goto)
 
 ;; Set to the name of the file where new notes will be stored
@@ -340,11 +345,17 @@
  
 (setq org-default-notes-file "~/Documents/org/inbox.org")
 (define-key global-map "\C-cc" 'org-capture)
-
+(setq org-agenda-prefix-format "")
+(setq org-agenda-window-setup 'current-window)
+(setq org-agenda-only-exact-dates t)
 (setq org-agenda-custom-commands
       '(("w" "Agenda and Office-related tasks"
-         ((agenda "" ((org-agenda-span 1)))
-          (tags-todo "-SCHEDULED={.+}-DEADLINE={.+}")))))
+         ((agenda "" ((org-agenda-span 1) ))
+          (tags-todo "-{.*}-SCHEDULED={.+}-DEADLINE={.+}")))
+        ("4" "TV4"
+         ((tags-todo "+inprogress|+codereview|+qa")))
+        ("h" "Home"
+         ((tags-todo "+home")))))
  
 ;; CamelCase!!
 (add-hook 'prog-mode-hook 'subword-mode)
@@ -487,6 +498,7 @@
 
 ;; Open stuff at start up
 (find-file "~/Documents/scratch.org")
+(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
 
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
 
