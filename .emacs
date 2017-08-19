@@ -5,6 +5,11 @@
  ;; If there is more than one, they won't work right.
  '(backup-directory-alist (\` ((".*" . "~/.emacs_backups"))))
  '(c-basic-offset 4)
+ '(company-backends
+   (quote
+    (company-emacs-eclim company-flow company-tern company-robe company-bbdb company-css company-semantic company-clang company-xcode company-cmake company-capf
+                         (company-dabbrev-code company-gtags company-etags company-keywords)
+                         company-oddmuse company-files company-dabbrev)))
  '(company-eclim-auto-save nil)
  '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 1)
@@ -29,6 +34,9 @@
  '(exec-path
    (quote
     ("/usr/local/bin/" "/usr/bin/" "/bin/" "/usr/sbin/" "/sbin/" "/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin/" "/Users/jacobhakansson/.scripts/" "/Library/TeX/texbin/" "/Users/jacobhakansson/.rvm/bin/" "/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin" "/usr/local/Cellar/emacs/24.4/libexec/emacs/24.4/x86_64-apple-darwin13.4.0/")))
+ '(flycheck-checkers
+   (quote
+    (ada-gnat asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint d-dmd emacs-lisp emacs-lisp-checkdoc erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy jade javascript-eslint javascript-jshint javascript-gjslint javascript-jscs javascript-standard json-jsonlint json-python-json less lua-luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing puppet-parser puppet-lint python-flake8 python-pylint python-pycompile r-lintr racket rpm-rpmlint markdown-mdl rst-sphinx rst ruby-rubocop ruby-rubylint ruby ruby-jruby rust-cargo rust sass scala scala-scalastyle scss-lint scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim sql-sqlint tex-chktex tex-lacheck texinfo typescript-tslint verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby flow)))
  '(global-auto-revert-mode t)
  '(global-company-mode t)
  '(global-eclim-mode t)
@@ -65,7 +73,7 @@
      (timeline . "  % s")
      (todo . " %b")
      (tags . " %i %-12:c")
-     (search . " %i %-12:c"))))
+     (search . " %i %-12:c"))) t)
  '(org-agenda-sticky t)
  '(org-capture-templates
    (quote
@@ -162,8 +170,18 @@
 (use-package paredit :ensure t)
 (use-package smooth-scrolling :ensure t)
 (use-package magit :ensure t)
+(use-package flycheck-flow :ensure t)
 (global-set-key (kbd "s-m") 'magit-status)
-
+(use-package s :ensure t) ;; dependency of dumb-jump
+(use-package dumb-jump
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("s-." . dumb-jump-go)
+         ("s->" . dumb-jump-back)
+         ("M-g x" . dumb-jump-go-prefer-external)
+         ("M-g z" . dumb-jump-go-prefer-external-other-window))
+  :config (setq dumb-jump-selector 'helm)
+  :ensure t)
+(dumb-jump-mode)
 ;; helm
 (use-package helm :ensure t)
 (helm-mode 1)
@@ -224,12 +242,14 @@
 ;; Set Yasnippet's key binding to shift+tab
 (define-key yas-minor-mode-map (kbd "<C-return>") 'yas-expand)
 
+(use-package company-flow :ensure t)
 ;; Company
 (use-package company :ensure t)
 ;;(add-to-list 'company-backends 'company-tern)
 (eval-after-load 'company
   '(progn
 	 (add-to-list 'company-backends 'company-robe)
+	 (add-to-list 'company-backends 'company-flow)
 	 (add-to-list 'company-backends 'company-tern)
 	 (global-company-mode t)))
 
@@ -325,6 +345,12 @@
   (org-agenda "" "w"))
 (setq org-agenda-files (quote ("~/Dropbox/Mediasmiths/org/gtd.org" "~/.jiraorg/TVFOUR.org")))
 
+(defun org-new-today ()
+  (interactive)
+  (insert "* ")
+  (org-date-from-calendar)
+  (insert " [/]\n- [ ] "))
+
 (global-set-key (kbd "C-c C-x C-o") 'org-clock-out)
 (global-set-key (kbd "C-c C-x C-x") 'org-clock-in-last)
 (global-set-key (kbd "C-c C-x C-i") 'org-clock-in)
@@ -351,12 +377,12 @@
 (setq org-agenda-custom-commands
       '(("w" "Agenda and Office-related tasks"
          ((agenda "" ((org-agenda-span 1) ))
-          (tags-todo "-{.*}-SCHEDULED={.+}-DEADLINE={.+}")))
+          (tags-todo "-{.*}-DEADLINE=<\"<today>\"")))
         ("4" "TV4"
          ((tags-todo "+inprogress|+codereview|+qa")))
         ("h" "Home"
          ((tags-todo "+home")))))
- 
+
 ;; CamelCase!!
 (add-hook 'prog-mode-hook 'subword-mode)
 
@@ -510,7 +536,7 @@
 
 (global-set-key (kbd "C-S-i") 'indent-sexp-or-region)
 
-(defun indent-sexp ()
+(defun indent-sexp2 ()
   (interactive)
   (save-excursion
     (paredit-backward-up)
