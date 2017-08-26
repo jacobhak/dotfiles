@@ -215,7 +215,12 @@
 (setq projectile-completion-system 'helm)
 (helm-projectile-on)
 (setq projectile-switch-project-action 'helm-projectile)
-(global-set-key (kbd "s-r") 'rgrep)
+
+(defun helm-grep-with-thing-at-point ()
+  (interactive)
+  (helm-grep-git-1 default-directory nil nil (thing-at-point 'symbol)))
+(global-set-key (kbd "s-r") 'helm-grep-with-thing-at-point)
+
 
 (setq kill-whole-line t)
 (defadvice yank (after indent-region activate)
