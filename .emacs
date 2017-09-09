@@ -37,6 +37,7 @@
  '(flycheck-checkers
    (quote
     (ada-gnat asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint d-dmd emacs-lisp emacs-lisp-checkdoc erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy jade javascript-eslint javascript-jshint javascript-gjslint javascript-jscs javascript-standard json-jsonlint json-python-json less lua-luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing puppet-parser puppet-lint python-flake8 python-pylint python-pycompile r-lintr racket rpm-rpmlint markdown-mdl rst-sphinx rst ruby-rubocop ruby-rubylint ruby ruby-jruby rust-cargo rust sass scala scala-scalastyle scss-lint scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim sql-sqlint tex-chktex tex-lacheck texinfo typescript-tslint verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby flow)))
+ '(flycheck-javascript-flow-args nil)
  '(global-auto-revert-mode t)
  '(global-company-mode t)
  '(global-eclim-mode t)
@@ -55,6 +56,8 @@
  '(js2-basic-offset 2)
  '(js2-highlight-level 3)
  '(js2-include-node-externs t)
+ '(js2-mode-show-parse-errors nil)
+ '(js2-mode-show-strict-warnings nil)
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(mocha-command "npm test")
@@ -141,7 +144,7 @@
 (setenv "DOCKER_CERT_PATH" "/Users/jacobhakansson/.docker/machine/machines/default")
 (setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home")
 (setenv "MULE_HOME" "/Users/jacobhakansson/Developer/DevTools/mmc-distribution-mule-console-bundle-3.5.2-HF1/mule-enterprise-3.5.2")
-(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin:/Users/jacobhakansson/.scripts:/Library/TeX/texbin:/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")
+;;(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin:/Users/jacobhakansson/.scripts:/Library/TeX/texbin:/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin:")
 (setenv "NODE_PATH" "/usr/local/lib/node_modules/")
 
 (require 'package)
@@ -320,6 +323,8 @@
   (tern-mode t)
   (flycheck-mode t))
 
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+(add-hook 'rjsx-mode-hook 'js-hook)
 (add-hook 'js-mode-hook 'js-hook)
 
 ;; AUTO-INDENT
@@ -485,12 +490,6 @@
   (org-export-insert-default-template 'default)
   (org-custom-document-settings))
 
-;; (defun org-hook ()
-;;   (truncate-lines t)
-;;   (word-wrap t)
-;;   (company-mode nil))
-;; doesn't work
-
 (defun show-todo-list ()
   (interactive)
   (switch-to-buffer "*Org Agenda(t)*"))
@@ -529,9 +528,9 @@
 
 ;; Open stuff at start up
 (find-file "~/Documents/scratch.org")
-(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
+;;(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
 
-(setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
+;;(setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin/")))
 
 (defun indent-sexp-or-region ()
   (interactive)
@@ -562,3 +561,8 @@
     (downcase-word 1)))
 
 (global-set-key (kbd "M-l") 'lowercase-without-move)
+
+(flycheck-add-mode 'javascript-eslint 'rjsx-mode)
+(nvm-use "v6.0.0")
+(exec-path-from-shell-copy-env "PATH")
+;;; .emacs ends here 

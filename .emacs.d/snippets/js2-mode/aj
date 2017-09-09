@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: angular.toJson
+# key: aj
+# binding: direct-keybinding
+# --
+angular.toJson($0)
