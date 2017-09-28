@@ -41,6 +41,7 @@
  '(global-auto-revert-mode t)
  '(global-company-mode t)
  '(global-eclim-mode t)
+ '(helm-buffer-max-length 20)
  '(helm-full-frame nil)
  '(helm-reuse-last-window-split-state t)
  '(helm-split-window-in-side-p t)
@@ -76,7 +77,7 @@
      (timeline . "  % s")
      (todo . " %b")
      (tags . " %i %-12:c")
-     (search . " %i %-12:c"))) t)
+     (search . " %i %-12:c"))))
  '(org-agenda-sticky t)
  '(org-capture-templates
    (quote
@@ -171,6 +172,8 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (use-package paredit :ensure t)
+(use-package tern :ensure t)
+(autoload 'tern-mode "tern.el" nil t)
 (use-package smooth-scrolling :ensure t)
 (use-package magit :ensure t)
 (use-package flycheck-flow :ensure t)
@@ -563,6 +566,51 @@
 (global-set-key (kbd "M-l") 'lowercase-without-move)
 
 (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-(nvm-use "v6.0.0")
+(nvm-use "v6.2")
 (exec-path-from-shell-copy-env "PATH")
+
+(use-package paredit :ensure t)
+
+(defun iedit-dwim ()
+  (interactive)
+  (if (not (use-region-p))
+      (iedit-mode)
+    (save-excursion
+      (if iedit-mode
+          (iedit-done)
+        (iedit-start (current-word) (region-beginning) (region-end))))))
+(global-set-key (kbd "C-;") 'iedit-dwim)
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :config
+  (progn
+    (setq treemacs-follow-after-init          t
+          treemacs-width                      35
+          treemacs-indentation                2
+          treemacs-git-integration            t
+          treemacs-collapse-dirs              3
+          treemacs-silent-refresh             nil
+          treemacs-change-root-without-asking nil
+          treemacs-show-hidden-files          t
+          treemacs-never-persist              nil
+          treemacs-is-never-other-window      nil
+          treemacs-goto-tag-strategy          'refetch-index)
+
+    (treemacs-filewatch-mode t))
+  :bind
+  (:map global-map
+        ("s-t"       . treemacs-toggle)
+        ("M-0"       . treemacs-select-window)
+        ("C-c 1"     . treemacs-delete-other-windows)))
+
+(use-package treemacs-projectile
+  :defer t
+  :ensure t
+  :config
+  (setq treemacs-header-function #'treemacs-projectile-create-header))
+
+(use-package import-js :ensure t)
 ;;; .emacs ends here 
+(put 'narrow-to-region 'disabled nil)
