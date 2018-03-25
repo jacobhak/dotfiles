@@ -41,6 +41,9 @@
  '(global-auto-revert-mode t)
  '(global-company-mode t)
  '(global-eclim-mode t)
+ '(grep-find-ignored-files
+   (quote
+    ("*.min.js" ".#*" "*.hi" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.cp" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
  '(helm-buffer-max-length 20)
  '(helm-full-frame nil)
  '(helm-reuse-last-window-split-state t)
@@ -77,7 +80,7 @@
      (timeline . "  % s")
      (todo . " %b")
      (tags . " %i %-12:c")
-     (search . " %i %-12:c"))))
+     (search . " %i %-12:c"))) t)
  '(org-agenda-sticky t)
  '(org-capture-templates
    (quote
@@ -115,10 +118,17 @@
     ((org-agenda-files :tag . "")
      ("~/Dropbox/Mediasmiths/org/gtd.org" :maxlevel . 3))))
  '(org-time-clocksum-use-effort-durations t)
+ '(package-selected-packages
+   (quote
+    (magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode json-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
- '(safe-local-variable-values (quote ((company-mode))))
+ '(safe-local-variable-values
+   (quote
+    ((js2-basic-offset . 4)
+     (js2-basic-offset . 2)
+     (company-mode))))
  '(scroll-bar-mode nil)
  '(send-mail-function (quote mailclient-send-it))
  '(sgml-basic-offset 2)
@@ -156,6 +166,8 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(setq sml/no-confirm-load-theme t)
+(sml/setup)
 
 (use-package tao-theme
              :ensure t
@@ -224,7 +236,7 @@
 
 (defun helm-grep-with-thing-at-point ()
   (interactive)
-  (helm-grep-git-1 default-directory nil nil (thing-at-point 'symbol)))
+  (helm-grep-git-1 default-directory t nil (thing-at-point 'symbol)))
 (global-set-key (kbd "s-r") 'helm-grep-with-thing-at-point)
 
 
@@ -232,7 +244,6 @@
 (defadvice yank (after indent-region activate)
   (indent-region (region-beginning) (region-end) nil))
 
-(sml/setup)
 
 (defun bind-ido-keys ()
   "Keybindings for ido mode."
@@ -612,5 +623,7 @@
   (setq treemacs-header-function #'treemacs-projectile-create-header))
 
 (use-package import-js :ensure t)
-;;; .emacs ends here 
 (put 'narrow-to-region 'disabled nil)
+(setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin"))
+;;; .emacs ends here 
