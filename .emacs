@@ -20,6 +20,7 @@
    (quote
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(debug-on-error nil)
+ '(dired-dwim-target t)
  '(display-buffer-reuse-frames t)
  '(eclim-auto-save nil)
  '(eclim-eclipse-dirs
@@ -64,6 +65,7 @@
  '(js2-mode-show-strict-warnings nil)
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
+ '(markdown-header-scaling t)
  '(mocha-command "npm test")
  '(mocha-options "")
  '(mocha-which-node "")
@@ -120,7 +122,7 @@
  '(org-time-clocksum-use-effort-durations t)
  '(package-selected-packages
    (quote
-    (magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode json-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
+    (key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode json-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
@@ -182,6 +184,14 @@
 
 (global-set-key (kbd "C-c p") 'compile)
 (defalias 'yes-or-no-p 'y-or-n-p)
+
+;; Check if stable in a while
+;;(use-package lsp-mode :ensure t)
+;;(use-package company-lsp :ensure t :init (push 'company-lsp company-backends))
+;; (use-package lsp-javascript-typescript
+;;   :ensure t
+;;   :init
+;;   (add-hook 'rjsx-mode-hook #'lsp-javascript-typescript-enable))
 
 (use-package paredit :ensure t)
 (use-package tern :ensure t)
@@ -323,6 +333,8 @@
 		  (line-beginning-position (+ 1 arg)))
   (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
 
+(use-package key-chord :ensure t :init (key-chord-mode 1))
+
 (defun delete-tern-process ()
   (interactive)
   (delete-process "Tern"))
@@ -335,7 +347,8 @@
 
 (defun js-hook ()
   (tern-mode t)
-  (flycheck-mode t))
+  (flycheck-mode t)
+  (key-chord-define rjsx-mode-map ";;" "\C-e;"))
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 (add-hook 'rjsx-mode-hook 'js-hook)
@@ -544,8 +557,6 @@
 (find-file "~/Documents/scratch.org")
 ;;(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
 
-;;(setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin/")))
-
 (defun indent-sexp-or-region ()
   (interactive)
   (if (not (use-region-p))
@@ -577,8 +588,8 @@
 (global-set-key (kbd "M-l") 'lowercase-without-move)
 
 (flycheck-add-mode 'javascript-eslint 'rjsx-mode)
-(nvm-use "v6.2")
-(exec-path-from-shell-copy-env "PATH")
+;;(nvm-use "v6.2")
+;;(exec-path-from-shell-copy-env "PATH")
 
 (use-package paredit :ensure t)
 
@@ -623,6 +634,19 @@
   (setq treemacs-header-function #'treemacs-projectile-create-header))
 
 (use-package import-js :ensure t)
+
+(setq kill-buffer-query-functions
+      (remq 'process-kill-buffer-query-function
+            kill-buffer-query-functions))
+
+(defun markdown-hook ()
+  "Set wordwrap in md."
+  (setq word-wrap 1))
+(add-hook 'markdown-mode-hook 'markdown-hook)
+
+(use-package pandoc-mode :ensure t)
+
+
 (put 'narrow-to-region 'disabled nil)
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin"))
