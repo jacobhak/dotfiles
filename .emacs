@@ -136,7 +136,9 @@
  '(sgml-basic-offset 2)
  '(show-paren-mode t)
  '(sml/mode-width (quote full))
+ '(sml/no-confirm-load-theme t)
  '(sml/shorten-modes t)
+ '(sml/theme (quote respectful))
  '(split-height-threshold 1000)
  '(split-width-threshold 1000)
  '(tab-width 4)
@@ -149,7 +151,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(sml/client ((t nil)))
+ '(sml/filename ((t (:inherit nil :foreground "gray17" :weight bold))))
+ '(sml/git ((t (:foreground "#d62f0f")))))
 
 (setenv "DOCKER_HOST" "tcp://192.168.99.100:2376")
 (setenv "DOCKER_MACHINE_NAME" "default")
@@ -181,6 +185,8 @@
              (set-face-attribute 'fringe nil
                                  :foreground (face-foreground 'default)
                                  :background (face-background 'default)))
+
+(load-file "./.emacs.d/simple-red-theme.el")
 
 (global-set-key (kbd "C-c p") 'compile)
 (defalias 'yes-or-no-p 'y-or-n-p)

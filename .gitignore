@@ -4,4 +4,4 @@
 !/.emacs.d*
 !/.emacs.d/snippets*
 !/.emacs.d/snippets/**/*
-
+!/.emacs.d/simple-red-theme.el
