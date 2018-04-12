@@ -66,6 +66,7 @@
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(markdown-header-scaling t)
+ '(markdown-header-scaling-values (quote (2.1 1.7 1.4 1.1 1.0 1.0)))
  '(mocha-command "npm test")
  '(mocha-options "")
  '(mocha-which-node "")
@@ -122,13 +123,14 @@
  '(org-time-clocksum-use-effort-durations t)
  '(package-selected-packages
    (quote
-    (key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode json-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
+    (magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
  '(safe-local-variable-values
    (quote
-    ((js2-basic-offset . 4)
+    ((cursor-type quote bar)
+     (js2-basic-offset . 4)
      (js2-basic-offset . 2)
      (company-mode))))
  '(scroll-bar-mode nil)
@@ -145,6 +147,7 @@
  '(tool-bar-mode nil)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(user-mail-address "jacobhakansson@gmail.com")
+ '(wdired-allow-to-change-permissions (quote advanced))
  '(whole-line-or-region-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -153,7 +156,8 @@
  ;; If there is more than one, they won't work right.
  '(sml/client ((t nil)))
  '(sml/filename ((t (:inherit nil :foreground "gray17" :weight bold))))
- '(sml/git ((t (:foreground "#d62f0f")))))
+ '(sml/git ((t (:foreground "#d62f0f"))))
+ '(variable-pitch ((t (:height 140 :family "Helvetica Neue")))))
 
 (setenv "DOCKER_HOST" "tcp://192.168.99.100:2376")
 (setenv "DOCKER_MACHINE_NAME" "default")
@@ -191,6 +195,10 @@
 (global-set-key (kbd "C-c p") 'compile)
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; CamelCase!!
+(add-hook 'prog-mode-hook 'subword-mode)
+
+
 ;; Check if stable in a while
 ;;(use-package lsp-mode :ensure t)
 ;;(use-package company-lsp :ensure t :init (push 'company-lsp company-backends))
@@ -204,6 +212,11 @@
 (autoload 'tern-mode "tern.el" nil t)
 (use-package smooth-scrolling :ensure t)
 (use-package magit :ensure t)
+(use-package magithub
+  :after magit
+  :ensure t
+  :config
+  (magithub-feature-autoinject t))
 (use-package flycheck-flow :ensure t)
 (global-set-key (kbd "s-m") 'magit-status)
 (use-package s :ensure t) ;; dependency of dumb-jump
@@ -380,6 +393,14 @@
 (global-set-key (kbd "s-}") 'forward-window)
  
 ;; --------ORG MODE------------------
+(defun org-hook ()
+  "Set wordwrap in md."
+  (setq word-wrap 1)
+  (setq cursor-type 'bar)
+  (company-mode nil))
+
+(add-hook 'org-mode-hook 'org-hook)
+
 (defun org-select-clock-in ()
   (interactive)
   (org-clock-in '(4)))
@@ -425,9 +446,6 @@
          ((tags-todo "+inprogress|+codereview|+qa")))
         ("h" "Home"
          ((tags-todo "+home")))))
-
-;; CamelCase!!
-(add-hook 'prog-mode-hook 'subword-mode)
 
 ;; Preserve top level headings when archiving in org.
 (defadvice org-archive-subtree (around my-org-archive-subtree activate)
@@ -647,7 +665,11 @@
 
 (defun markdown-hook ()
   "Set wordwrap in md."
-  (setq word-wrap 1))
+  (setq word-wrap 1)
+  (setq cursor-type 'bar)
+  (variable-pitch-mode 1)
+  (company-mode nil))
+
 (add-hook 'markdown-mode-hook 'markdown-hook)
 
 (use-package pandoc-mode :ensure t)
