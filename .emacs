@@ -19,7 +19,7 @@
  '(custom-safe-themes
    (quote
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(debug-on-error nil)
+ '(debug-on-error t)
  '(dired-dwim-target t)
  '(display-buffer-reuse-frames t)
  '(eclim-auto-save nil)
@@ -83,7 +83,7 @@
      (timeline . "  % s")
      (todo . " %b")
      (tags . " %i %-12:c")
-     (search . " %i %-12:c"))) t)
+     (search . " %i %-12:c"))))
  '(org-agenda-sticky t)
  '(org-capture-templates
    (quote
@@ -111,6 +111,7 @@
     (("en" "<p class=\"author\">Author: %a (%e)</p><p class=\"date\">Date: %d</p>"))))
  '(org-export-html-style
    "<link rel=\"stylesheet\" type=\"text/css\" href=\"//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css\" /><meta name=\"viewport\" content=\"initial-scale = 1.0,maximum-scale = 1.0\" />")
+ '(org-hide-leading-stars t)
  '(org-mobile-directory "~/Dropbox/Apps/MobileOrg" t)
  '(org-mobile-files
    (quote
@@ -394,7 +395,6 @@
  
 ;; --------ORG MODE------------------
 (defun org-hook ()
-  "Set wordwrap in md."
   (setq word-wrap 1)
   (setq cursor-type 'bar)
   (company-mode nil))
