@@ -19,7 +19,7 @@
  '(custom-safe-themes
    (quote
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
- '(debug-on-error t)
+ '(debug-on-error nil)
  '(dired-dwim-target t)
  '(display-buffer-reuse-frames t)
  '(eclim-auto-save nil)
@@ -85,6 +85,7 @@
      (tags . " %i %-12:c")
      (search . " %i %-12:c"))))
  '(org-agenda-sticky t)
+ '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t) (js . t))))
  '(org-capture-templates
    (quote
     (("j" "Copy jira issue" entry
@@ -124,7 +125,7 @@
  '(org-time-clocksum-use-effort-durations t)
  '(package-selected-packages
    (quote
-    (magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
+    (dired-quick-sort magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
@@ -397,9 +398,17 @@
 (defun org-hook ()
   (setq word-wrap 1)
   (setq cursor-type 'bar)
-  (company-mode nil))
+  (company-mode -1))
 
 (add-hook 'org-mode-hook 'org-hook)
+
+(defun org-archive-done-tasks ()
+  (interactive)
+  (org-map-entries
+   (lambda ()
+     (org-archive-subtree)
+     (setq org-map-continue-from (outline-previous-heading)))
+   "/DONE" 'file))
 
 (defun org-select-clock-in ()
   (interactive)
@@ -426,6 +435,8 @@
 (global-set-key (kbd "s-i") 'org-select-clock-in)
 (global-set-key (kbd "s-k") 'org-capture)
 (global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c r") 'org-archive-done-tasks)
+
 ;;(global-set-key (kbd "s-g") 'org-clock-goto)
 
 ;; Set to the name of the file where new notes will be stored
@@ -668,12 +679,17 @@
   (setq word-wrap 1)
   (setq cursor-type 'bar)
   (variable-pitch-mode 1)
-  (company-mode nil))
+  (company-mode -1))
 
 (add-hook 'markdown-mode-hook 'markdown-hook)
 
 (use-package pandoc-mode :ensure t)
 
+(use-package dired-quick-sort
+  :ensure t
+  :config
+  (dired-quick-sort-setup))
+(setq insert-directory-program "/usr/local/bin/gls")
 
 (put 'narrow-to-region 'disabled nil)
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
