@@ -20,6 +20,7 @@
    (quote
     ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
  '(debug-on-error nil)
+ '(deft-use-filter-string-for-filename t)
  '(dired-dwim-target t)
  '(display-buffer-reuse-frames t)
  '(eclim-auto-save nil)
@@ -42,6 +43,7 @@
  '(global-auto-revert-mode t)
  '(global-company-mode t)
  '(global-eclim-mode t)
+ '(global-whitespace-mode t)
  '(grep-find-ignored-files
    (quote
     ("*.min.js" ".#*" "*.hi" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.cp" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
@@ -88,7 +90,10 @@
  '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t) (js . t))))
  '(org-capture-templates
    (quote
-    (("j" "Copy jira issue" entry
+    (("x" "Next" entry
+      (file+headline "~/Dropbox/Mediasmiths/org/gtd.org" "Next")
+      "* TODO %?")
+     ("j" "Copy jira issue" entry
       (file+headline "~/Dropbox/Mediasmiths/org/gtd.org" "Inbox")
       "* TODO %i 
 %a")
@@ -100,7 +105,12 @@
       (file+headline "~/Dropbox/Mediasmiths/org/gtd.org" "Tasks")
       "* TODO %?
   %i
-"))))
+")
+     ("m" "Time tracking")
+     ("mi" "Internal")
+     ("mii" "Internal IT" entry
+      (file+olp "~/Dropbox/Mediasmiths/org/gtd.org" "Time" "Internal" "Internal IT")
+      "* %?" :clock-in t :clock-keep t))))
  '(org-clock-history-length 10)
  '(org-clock-into-drawer t)
  '(org-completion-use-ido t)
@@ -125,7 +135,7 @@
  '(org-time-clocksum-use-effort-durations t)
  '(package-selected-packages
    (quote
-    (dired-quick-sort magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
+    (deft dired-quick-sort magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
@@ -150,6 +160,9 @@
  '(uniquify-buffer-name-style (quote forward) nil (uniquify))
  '(user-mail-address "jacobhakansson@gmail.com")
  '(wdired-allow-to-change-permissions (quote advanced))
+ '(whitespace-style
+   (quote
+    (face tabs space-after-tab space-before-tab tab-mark)))
  '(whole-line-or-region-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -590,7 +603,7 @@
 
 ;; Open stuff at start up
 (find-file "~/Documents/scratch.org")
-;;(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
+(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
 
 (defun indent-sexp-or-region ()
   (interactive)
@@ -691,7 +704,21 @@
   (dired-quick-sort-setup))
 (setq insert-directory-program "/usr/local/bin/gls")
 
+(use-package deft
+  :ensure t
+  :bind ("s-d" . deft)
+  :commands (deft)
+  :config (setq deft-directory "~/Dropbox/notes"
+                deft-extensions '("md" "org")
+                deft-default-extension "org"))
+
 (put 'narrow-to-region 'disabled nil)
+;; mu4e
+(add-to-list 'load-path (expand-file-name "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e"))
+(require 'mu4e)
+(setq mu4e-maildir (expand-file-name "~/Maildir"))
+(setq mu4e-get-mail-command "/usr/local/bin/mbsync -a")
+
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin"))
 ;;; .emacs ends here 
