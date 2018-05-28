@@ -42,7 +42,6 @@
  '(flycheck-javascript-flow-args nil)
  '(global-auto-revert-mode t)
  '(global-company-mode t)
- '(global-eclim-mode t)
  '(global-whitespace-mode t)
  '(grep-find-ignored-files
    (quote
@@ -334,15 +333,6 @@
      (define-key company-active-map (kbd "TAB") 'company-complete-common-or-cycle)
      (define-key company-active-map [tab] 'company-complete-common-or-cycle)))
  
-;; ECLIM
-(require 'eclim)
-(global-eclim-mode)
-(setq help-at-pt-display-when-idle t)
-(setq help-at-pt-timer-delay 0.1)
-(help-at-pt-set-timer)
-(require 'company-emacs-eclim)
-(company-emacs-eclim-setup)
-
 (add-hook 'java-mode-hook (lambda ()
 							(setq c-basic-offset 4
 								  tab-width 4
