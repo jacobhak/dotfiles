@@ -190,8 +190,11 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
-(setq sml/no-confirm-load-theme t)
-(sml/setup)
+(use-package smart-mode-line
+  :ensure t
+  :init
+  (setq sml/no-confirm-load-theme t)
+  (sml/setup))
 
 (use-package tao-theme
              :ensure t
@@ -295,7 +298,7 @@
 
 (add-hook 'ido-setup-hook #'bind-ido-keys)
 
-
+(use-package exec-path-from-shell :ensure t)
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
@@ -704,10 +707,10 @@
 
 (put 'narrow-to-region 'disabled nil)
 ;; mu4e
-(add-to-list 'load-path (expand-file-name "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e"))
-(require 'mu4e)
-(setq mu4e-maildir (expand-file-name "~/Maildir"))
-(setq mu4e-get-mail-command "/usr/local/bin/mbsync -a")
+;;(add-to-list 'load-path (expand-file-name "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e"))
+;;(require 'mu4e)
+;;(setq mu4e-maildir (expand-file-name "~/Maildir"))
+;;(setq mu4e-get-mail-command "/usr/local/bin/mbsync -a")
 
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin"))
