@@ -42,6 +42,7 @@
  '(flycheck-javascript-flow-args nil)
  '(global-auto-revert-mode t)
  '(global-company-mode t)
+ '(global-eclim-mode t)
  '(global-whitespace-mode t)
  '(grep-find-ignored-files
    (quote
@@ -134,7 +135,7 @@
  '(org-time-clocksum-use-effort-durations t)
  '(package-selected-packages
    (quote
-    (deft dired-quick-sort magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
+    (counsel ivy json-mode deft dired-quick-sort magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
@@ -248,18 +249,18 @@
 (dumb-jump-mode)
 ;; helm
 (use-package helm :ensure t)
-(helm-mode 1)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(setq helm-M-x-fuzzy-match t)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "s-g") 'helm-google-suggest)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "s-p") 'helm-projectile)
-(global-set-key (kbd "s-P") 'helm-projectile-switch-project)
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+;; (helm-mode 1)
+;; (global-set-key (kbd "M-x") 'helm-M-x)
+;; (setq helm-M-x-fuzzy-match t)
+;; (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+;; (global-set-key (kbd "s-g") 'helm-google-suggest)
+;; (global-set-key (kbd "C-x b") 'helm-mini)
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; (global-set-key (kbd "s-p") 'helm-projectile)
+;; (global-set-key (kbd "s-P") 'helm-projectile-switch-project)
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+;; (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
 (advice-add 'helm-ff-filter-candidate-one-by-one
             :around (lambda (fcn file)
@@ -399,6 +400,8 @@
 (defun backward-window () (interactive) (other-window -1))
 (global-set-key (kbd "s-{") 'backward-window)
 (global-set-key (kbd "s-}") 'forward-window)
+(global-set-key (kbd "s-§") 'other-frame)
+
  
 ;; --------ORG MODE------------------
 (defun org-hook ()
@@ -711,6 +714,17 @@
 ;;(require 'mu4e)
 ;;(setq mu4e-maildir (expand-file-name "~/Maildir"))
 ;;(setq mu4e-get-mail-command "/usr/local/bin/mbsync -a")
+
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t))
+
+(use-package counsel
+  :ensure t
+  :config
+  (counsel-mode 1))
 
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin"))
