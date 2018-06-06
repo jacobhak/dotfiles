@@ -197,18 +197,19 @@
   (setq sml/no-confirm-load-theme t)
   (sml/setup))
 
-(use-package tao-theme
-             :ensure t
-             :init
-             (load-theme 'tao-yang t)
-             (set-face-italic 'font-lock-string-face nil)
-             (set-face-underline 'font-lock-type-face nil)
-             :config
-             (set-face-attribute 'fringe nil
-                                 :foreground (face-foreground 'default)
-                                 :background (face-background 'default)))
+(load-file "./.emacs.d/simple-red-theme-dark.el")
 
-(load-file "./.emacs.d/simple-red-theme.el")
+;; (use-package tao-theme
+;;              :ensure t
+;;              :init
+;;              (load-theme 'tao-yang t)
+;;              (set-face-italic 'font-lock-string-face nil)
+;;              (set-face-underline 'font-lock-type-face nil)
+;;              :config
+;;              (set-face-attribute 'fringe nil
+;;                                  :foreground (face-foreground 'default)
+;;                                  :background (face-background 'default)))
+
 
 (global-set-key (kbd "C-c p") 'compile)
 (defalias 'yes-or-no-p 'y-or-n-p)
