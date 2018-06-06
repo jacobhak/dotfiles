@@ -618,6 +618,7 @@
     (indent-region (region-beginning) (region-end))))
 
 (defun capitalize-without-move ()
+  "Capitalize without moving the cursor."
   (interactive)
   (save-excursion
     (capitalize-word 1)))
@@ -625,6 +626,7 @@
 (global-set-key (kbd "M-c") 'capitalize-without-move)
 
 (defun lowercase-without-move ()
+  "Lowercase without moving the cursor."
   (interactive)
   (save-excursion
     (downcase-word 1)))
