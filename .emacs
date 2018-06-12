@@ -15,6 +15,7 @@
  '(company-minimum-prefix-length 1)
  '(company-selection-wrap-around t)
  '(compilation-scroll-output (quote first-error))
+ '(counsel-find-file-at-point t)
  '(custom-enabled-themes (quote (solarized-dark)))
  '(custom-safe-themes
    (quote
@@ -56,6 +57,7 @@
  '(ido-mode (quote both) nil (ido))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
+ '(ivy-extra-directories nil)
  '(jabber-alert-presence-hooks nil)
  '(jiralib-url "http://mediasmithsnordics.atlassian.net:80/")
  '(js-curly-indent-offset 0)
@@ -170,7 +172,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(sml/client ((t nil)))
- '(sml/filename ((t (:inherit nil :foreground "gray17" :weight bold))))
  '(sml/git ((t (:foreground "#d62f0f"))))
  '(variable-pitch ((t (:height 140 :family "Helvetica Neue")))))
 
