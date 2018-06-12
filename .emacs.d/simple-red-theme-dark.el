@@ -46,9 +46,13 @@
        (type    "#d4d4d4")
        (var     "#d4d4d4")
        (warning "#ff0000")
-       (warning2 "#ff8800"))
+       (warning2 "#ff8800")
+       (green "#5ac832"))
    (custom-theme-set-faces
-   'simple-red-dark
+    'simple-red-dark
+    `(success ((,class (:foreground ,green))))
+    `(magit-branch-remote ((,class (:foreground ,keyword))))
+    `(custom-button ((,class (:background ,bg4 :foreground ,fg1))))
    `(default ((,class (:background ,bg1 :foreground ,fg1))))
    `(font-lock-builtin-face ((,class (:foreground ,builtin))))
    `(font-lock-comment-face ((,class (:foreground ,comment))))
