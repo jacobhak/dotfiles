@@ -6,3 +6,6 @@
 !/.emacs.d/snippets/**/*
 !/.emacs.d/simple-red-theme.el
 !/.emacs.d/simple-red-theme-dark.el
+!/Library*
+!/Library/KeyBindings*
+!/Library/KeyBindings/DefaultKeyBinding.dict
