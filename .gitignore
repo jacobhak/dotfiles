@@ -1,6 +1,7 @@
 *
 !.gitignore
 !.emacs
+!.zsh-clipboard.sh
 !/.emacs.d*
 !/.emacs.d/snippets*
 !/.emacs.d/snippets/**/*
