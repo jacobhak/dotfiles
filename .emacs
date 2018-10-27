@@ -68,6 +68,9 @@
  '(js2-mode-show-parse-errors nil)
  '(js2-mode-show-strict-warnings nil)
  '(magit-diff-use-overlays nil)
+ '(magit-git-global-arguments
+   (quote
+    ("--no-pager" "-c" "core.preloadindex=true" "-c" "log.showSignature=false")))
  '(magit-use-overlays nil)
  '(markdown-header-scaling t)
  '(markdown-header-scaling-values (quote (2.1 1.7 1.4 1.1 1.0 1.0)))
@@ -87,7 +90,7 @@
      (timeline . "  % s")
      (todo . " %b")
      (tags . " %i %-12:c")
-     (search . " %i %-12:c"))))
+     (search . " %i %-12:c"))) t)
  '(org-agenda-sticky t)
  '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t) (js . t))))
  '(org-capture-templates
@@ -137,7 +140,7 @@
  '(org-time-clocksum-use-effort-durations t)
  '(package-selected-packages
    (quote
-    (counsel ivy json-mode deft dired-quick-sort magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
+    (ejc-sql treemacs projectile helm counsel ivy json-mode deft dired-quick-sort magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist (quote (" MRev" " ,")))
@@ -179,8 +182,7 @@
 (setenv "DOCKER_MACHINE_NAME" "default")
 (setenv "DOCKER_TLS_VERIFY" "1")
 (setenv "DOCKER_CERT_PATH" "/Users/jacobhakansson/.docker/machine/machines/default")
-(setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home")
-(setenv "MULE_HOME" "/Users/jacobhakansson/Developer/DevTools/mmc-distribution-mule-console-bundle-3.5.2-HF1/mule-enterprise-3.5.2")
+(setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home/")
 ;;(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin:/Users/jacobhakansson/.scripts:/Library/TeX/texbin:/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin:")
 (setenv "NODE_PATH" "/usr/local/lib/node_modules/")
 
@@ -427,7 +429,7 @@
 (defun org-show-work-list ()
   (interactive)
   (org-agenda "" "w"))
-(setq org-agenda-files (quote ("~/Dropbox/Mediasmiths/org/gtd.org" "~/.jiraorg/TVFOUR.org")))
+(setq org-agenda-files (quote ("~/Dropbox/org/gtd.org" "~/.jiraorg/TVFOUR.org")))
 
 (defun org-new-today ()
   (interactive)
@@ -442,13 +444,15 @@
 (global-set-key (kbd "C-c C-x t") 'org-insert-current-task-id)
 (global-set-key (kbd "C-c C-j") 'capture-jira-copy-command)
 (global-set-key (kbd "s-j") 'capture-jira-copy-command)
-(global-set-key (kbd "s-l") 'org-show-work-list)
+(global-set-key (kbd "s-l") 'open-gtd)
 (global-set-key (kbd "s-i") 'org-select-clock-in)
 (global-set-key (kbd "s-k") 'org-capture)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c r") 'org-archive-done-tasks)
 
 ;;(global-set-key (kbd "s-g") 'org-clock-goto)
+
+(defun open-gtd () (interactive) (find-file "~/Dropbox/org/gtd.org"))
 
 ;; Set to the name of the file where new notes will be stored
 (setq org-mobile-inbox-for-pull "~/Documents/org/inbox.org")
@@ -601,7 +605,7 @@
 
 ;; Open stuff at start up
 (find-file "~/Documents/scratch.org")
-(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
+(find-file "~/Dropbox/org/gtd.org")
 
 (defun indent-sexp-or-region ()
   (interactive)
@@ -729,6 +733,15 @@
   :ensure t
   :config
   (counsel-mode 1))
+
+
+;; https://github.com/kostafey/ejc-sql
+(use-package ejc-sql :ensure t)
+
+(fset 'sql-java-string
+   "+ \"\C-d\C-e \"\C-d\C-n\C-a")
+
+(server-start)
 
 (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
 (setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin"))
