@@ -39,6 +39,9 @@ export PATH="$PATH:$HOME/.poetry/bin"
 # fzf
 source <(fzf --zsh)
 
+# Source local secrets/overrides (not tracked by yadm)
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
 export EDITOR='emacs'
 {% if yadm.os == "Darwin" %}
 export EDITOR='emacsclient'
