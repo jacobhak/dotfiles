@@ -1,0 +1,41 @@
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git)
+source $ZSH/oh-my-zsh.sh
+
+# pyenv
+{% if yadm.os == "Darwin" %}
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+{% else %}
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+{% endif %}
+
+# Google Cloud SDK
+{% if yadm.os == "Darwin" %}
+if [ -f '/Users/jacobhakansson/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jacobhakansson/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/jacobhakansson/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jacobhakansson/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+{% else %}
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+{% endif %}
+
+# uv / pipx
+export PATH="$PATH:$HOME/.local/bin"
+
+# poetry
+export PATH="$PATH:$HOME/.poetry/bin"
+
+# fzf
+source <(fzf --zsh)
+
+{% if yadm.os == "Darwin" %}
+export EDITOR='emacsclient'
+alias e='emacsclient -n'
+export PATH='$HOME/.duckdb/cli/latest':$PATH
+{% else %}
+export EDITOR='vim'
+{% endif %}

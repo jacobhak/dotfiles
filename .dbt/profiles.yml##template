@@ -1,0 +1,24 @@
+default:
+  outputs:
+    dev:
+      account: qc21916.eu-central-1
+      database: dbt_jacob_h
+{% if yadm.os == "Darwin" %}
+      private_key_path: /Users/jacobhakansson/.ssh/rsa_key.p8
+{% else %}
+      private_key_path: /home/jacob/.ssh/rsa_key.p8
+{% endif %}
+      private_key_passphrase: "{% raw %}{{ env_var('SNOWFLAKE_KEY_PASSPHRASE') }}{% endraw %}"
+      role: developer
+      schema: bob
+      threads: 8
+      type: snowflake
+      user: jacob.hakansson@voiapp.io
+      warehouse: develop_wh
+
+    duckdb_pilot:
+      type: duckdb
+      path: dbt_duckdb_pilot
+      schema: vehicle
+      threads: 4
+  target: dev

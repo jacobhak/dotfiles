@@ -1,0 +1,15 @@
+[github]
+    user = jacobhak
+[gpg]
+    format = ssh
+[user]
+{% if yadm.os == "Darwin" %}
+    signingkey = /Users/jacobhakansson/.ssh/id_ed25519.pub
+{% else %}
+    signingkey = /home/jacob/.ssh/id_ed25519.pub
+{% endif %}
+    email = jacobhakansson@gmail.com
+[commit]
+    gpgsign = true
+[forge]
+	topicListLimit = 60,0

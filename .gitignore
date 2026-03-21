@@ -1,12 +1,41 @@
 *
 !.gitignore
+!README.md
+
+# Shell
+!.zshrc##template
+
+# tmux
+!.tmux.conf##template
+!tmux-work.sh
+
+# Git
+!.gitconfig##template
+!/.ssh
+!/.ssh/config
+
+# Claude Code
+!/.claude
+!/.claude/settings.json
+!/.claude/skills
+!/.claude/skills/**
+
+# dbt
+!/.dbt
+!/.dbt/profiles.yml##template
+
+# Snowflake MCP
+!snowflake_mcp_config.yaml
+
+# Emacs (legacy)
 !.emacs
-!.zsh-clipboard.sh
 !/.emacs.d*
 !/.emacs.d/snippets*
 !/.emacs.d/snippets/**/*
 !/.emacs.d/simple-red-theme.el
 !/.emacs.d/simple-red-theme-dark.el
+
+# macOS
 !/Library*
 !/Library/KeyBindings*
 !/Library/KeyBindings/DefaultKeyBinding.dict

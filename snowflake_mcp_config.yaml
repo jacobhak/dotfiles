@@ -1,0 +1,13 @@
+sql_statement_permissions:
+  - select: true
+  - insert: false
+  - update: false
+  - delete: false
+  - create: false
+  - drop: false
+  - alter: false
+
+other_services:
+  object_manager: true
+  query_manager: true
+  semantic_manager: false
