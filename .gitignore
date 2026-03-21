@@ -12,7 +12,7 @@
 # Git
 !.gitconfig##template
 !/.ssh
-!/.ssh/config
+!/.ssh/config##template
 
 # Claude Code
 !/.claude
