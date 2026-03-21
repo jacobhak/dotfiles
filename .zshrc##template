@@ -39,10 +39,9 @@ export PATH="$PATH:$HOME/.poetry/bin"
 # fzf
 source <(fzf --zsh)
 
+export EDITOR='emacs'
 {% if yadm.os == "Darwin" %}
 export EDITOR='emacsclient'
 alias e='emacsclient -n'
 export PATH='$HOME/.duckdb/cli/latest':$PATH
-{% else %}
-export EDITOR='vim'
 {% endif %}
