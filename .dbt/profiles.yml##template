@@ -8,7 +8,7 @@ default:
 {% else %}
       private_key_path: /home/jacob/.ssh/rsa_key.p8
 {% endif %}
-      private_key_passphrase: "{% raw %}{{ env_var('SNOWFLAKE_KEY_PASSPHRASE') }}{% endraw %}"
+      private_key_passphrase: "{{ env_var('SNOWFLAKE_KEY_PASSPHRASE') }}"
       role: developer
       schema: bob
       threads: 8
