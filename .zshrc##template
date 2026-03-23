@@ -49,6 +49,8 @@ if [ -n "$TMUX" ] && [ -n "$SSH_TTY" ]; then
     tmux set-environment SSH_TTY "$SSH_TTY"
 fi
 
+alias tp='tmux-picker'
+
 # Source local secrets/overrides (not tracked by yadm)
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 

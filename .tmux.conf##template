@@ -5,6 +5,7 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g mouse on
 set -g history-limit 100000
 set -g allow-passthrough on
+setw -g aggressive-resize on
 set -g prefix C-]
 unbind C-b
 bind C-] send-prefix

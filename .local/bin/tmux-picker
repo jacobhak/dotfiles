@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# TUI picker for tmux panes — designed for phone use.
+# Picks a pane, then attaches directly to the work session
+# at that pane. Simple, no tricks.
+#
+# Trade-off: the active window in the session changes for all
+# clients, but aggressive-resize means only the window you're
+# both looking at gets resized.
+
+SESSION="${1:-work}"
+
+# Pick a pane (runs outside tmux so fzf works naturally on small screens)
+TARGET=$(tmux list-panes -s -t "$SESSION" \
+    -F '#{window_index}.#{pane_index} │ #{window_name} │ #{pane_current_command}' \
+    | fzf \
+        --reverse \
+        --no-info \
+        --header='Pick a pane' \
+    | awk '{print $1}')
+
+[ -z "$TARGET" ] && exit 0
+
+WINDOW="${TARGET%%.*}"
+PANE_IDX="${TARGET##*.}"
+
+# Switch to the selected window/pane, zoom it, and attach
+tmux select-window -t "$SESSION:$WINDOW"
+tmux select-pane -t "$SESSION:$WINDOW.$PANE_IDX"
+tmux resize-pane -t "$SESSION:$WINDOW.$PANE_IDX" -Z
+exec tmux attach -t "$SESSION"
