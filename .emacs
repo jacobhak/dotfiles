@@ -15,9 +15,9 @@
  '(company-selection-wrap-around t)
  '(compilation-scroll-output 'first-error)
  '(counsel-find-file-at-point t)
- '(custom-enabled-themes '(solarized-dark))
+ '(custom-enabled-themes '(simple-red-dark))
  '(custom-safe-themes
-   '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
+   '("f9edb62ba843d3514e3a3933a6de1c92dfe2a3f0341f5929cd0a98f7f7fcdfbb" "a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
  '(debug-on-error nil)
  '(deft-use-filter-string-for-filename t)
  '(dired-dwim-target t)
@@ -156,6 +156,8 @@
 
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
+(unless (display-graphic-p)
+  (menu-bar-mode -1))
 
 (when (eq system-type 'darwin)
   (setenv "DOCKER_HOST" "tcp://192.168.99.100:2376")
@@ -182,7 +184,8 @@
   (setq sml/no-confirm-load-theme t)
   (sml/setup))
 
-(load-file (expand-file-name "~/.emacs.d/simple-red-theme-dark.el"))
+(add-to-list 'custom-theme-load-path "~/.emacs.d/")
+(load-theme 'simple-red-dark t)
 
 ;; (use-package tao-theme
 ;;              :ensure t
