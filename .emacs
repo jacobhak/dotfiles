@@ -103,7 +103,7 @@
  '(org-clock-history-length 10)
  '(org-clock-into-drawer t)
  '(org-completion-use-ido t)
- '(org-default-notes-file "~/Documents/org/new_mobile.org")
+ '(org-default-notes-file "~/Documents/org/new_mobile.org" t)
  '(org-directory "~/Dropbox/Mediasmiths/org")
  '(org-export-html-postamble t)
  '(org-export-html-postamble-format
@@ -120,7 +120,7 @@
      ("~/Dropbox/Mediasmiths/org/gtd.org" :maxlevel . 3)))
  '(org-time-clocksum-use-effort-durations t)
  '(package-selected-packages
-   '(treemacs projectile helm s counsel ivy json-mode deft dired-quick-sort forge key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme))
+   '(clipetty treemacs projectile helm s counsel ivy json-mode deft dired-quick-sort forge key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
  '(rm-blacklist '(" MRev" " ,"))
@@ -723,4 +723,22 @@
 (when (eq system-type 'darwin)
   (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
   (setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
-;;; .emacs ends here 
+
+;; OSC 52 clipboard support for remote/terminal sessions
+;; Writes DCS-wrapped OSC 52 to the tmux pane tty
+(defun osc52-copy (string)
+  "Copy STRING to the system clipboard via OSC 52."
+  (let* ((b64 (base64-encode-string (encode-coding-string string 'binary) t))
+         (tty (string-trim (shell-command-to-string "tmux display-message -p '#{pane_tty}'")))
+         (seq (if (getenv "TMUX")
+                  (format "\ePtmux;\e\e]52;c;%s\e\e\\\e\\" b64)
+                (format "\e]52;c;%s\a" b64))))
+    (write-region seq nil tty t 0)))
+
+(defun osc52-interprogram-cut (string)
+  "Interprogram cut function using OSC 52."
+  (osc52-copy string))
+
+(setq interprogram-cut-function #'osc52-interprogram-cut)
+
+;;; .emacs ends here
