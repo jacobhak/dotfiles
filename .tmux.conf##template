@@ -5,6 +5,9 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g mouse on
 set -g history-limit 100000
 set -g allow-passthrough on
+set -g prefix C-z
+unbind C-b
+bind C-z send-prefix
 
 {% if yadm.os == "Darwin" %}
 bind-key O run-shell "tmux show-buffer | tr -d '\n' | xargs open"
