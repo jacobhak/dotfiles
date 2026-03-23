@@ -3,58 +3,52 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(backup-directory-alist (\` ((".*" . "~/.emacs_backups"))))
+ '(backup-directory-alist `((".*" . "~/.emacs_backups")))
  '(c-basic-offset 4)
  '(company-backends
-   (quote
-    (company-emacs-eclim company-flow company-tern company-robe company-bbdb company-css company-semantic company-clang company-xcode company-cmake company-capf
+   '(company-emacs-eclim company-flow company-tern company-robe company-bbdb company-css company-semantic company-clang company-xcode company-cmake company-capf
                          (company-dabbrev-code company-gtags company-etags company-keywords)
-                         company-oddmuse company-files company-dabbrev)))
+                         company-oddmuse company-files company-dabbrev))
  '(company-eclim-auto-save nil)
  '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 1)
  '(company-selection-wrap-around t)
- '(compilation-scroll-output (quote first-error))
+ '(compilation-scroll-output 'first-error)
  '(counsel-find-file-at-point t)
- '(custom-enabled-themes (quote (solarized-dark)))
+ '(custom-enabled-themes '(solarized-dark))
  '(custom-safe-themes
-   (quote
-    ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+   '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" "4f5bb895d88b6fe6a983e63429f154b8d939b4a8c581956493783b2515e22d6d" "12b4427ae6e0eef8b870b450e59e75122d5080016a9061c9696959e50d578057" "ad950f1b1bf65682e390f3547d479fd35d8c66cafa2b8aa28179d78122faa947" "3b24f986084001ae46aa29ca791d2bc7f005c5c939646d2b800143526ab4d323" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))
  '(debug-on-error nil)
  '(deft-use-filter-string-for-filename t)
  '(dired-dwim-target t)
  '(display-buffer-reuse-frames t)
  '(eclim-auto-save nil)
  '(eclim-eclipse-dirs
-   (quote
-    ("/Applications/Eclipse.app/Contents/Eclipse" "/usr/lib/eclipse" "/usr/local/lib/eclipse" "/usr/share/eclipse")))
+   '("/Applications/Eclipse.app/Contents/Eclipse" "/usr/lib/eclipse" "/usr/local/lib/eclipse" "/usr/share/eclipse"))
  '(eclim-executable "/Applications/Eclipse.app/Contents/Eclipse/eclim")
  '(eclim-problems-refresh-delay 0.1)
- '(ediff-merge-split-window-function (quote split-window-vertically))
+ '(ediff-merge-split-window-function 'split-window-vertically)
  '(editorconfig-mode t)
  '(electric-indent-mode t)
  '(electric-pair-mode t)
  '(exec-path
-   (quote
-    ("/usr/local/bin/" "/usr/bin/" "/bin/" "/usr/sbin/" "/sbin/" "/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin/" "/Users/jacobhakansson/.scripts/" "/Library/TeX/texbin/" "/Users/jacobhakansson/.rvm/bin/" "/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin" "/usr/local/Cellar/emacs/24.4/libexec/emacs/24.4/x86_64-apple-darwin13.4.0/")))
+   '("/usr/local/bin/" "/usr/bin/" "/bin/" "/usr/sbin/" "/sbin/" "/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin/" "/Users/jacobhakansson/.scripts/" "/Library/TeX/texbin/" "/Users/jacobhakansson/.rvm/bin/" "/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin" "/usr/local/Cellar/emacs/24.4/libexec/emacs/24.4/x86_64-apple-darwin13.4.0/"))
  '(flycheck-checkers
-   (quote
-    (ada-gnat asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint d-dmd emacs-lisp emacs-lisp-checkdoc erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy jade javascript-eslint javascript-jshint javascript-gjslint javascript-jscs javascript-standard json-jsonlint json-python-json less lua-luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing puppet-parser puppet-lint python-flake8 python-pylint python-pycompile r-lintr racket rpm-rpmlint markdown-mdl rst-sphinx rst ruby-rubocop ruby-rubylint ruby ruby-jruby rust-cargo rust sass scala scala-scalastyle scss-lint scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim sql-sqlint tex-chktex tex-lacheck texinfo typescript-tslint verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby flow)))
+   '(ada-gnat asciidoc c/c++-clang c/c++-gcc c/c++-cppcheck cfengine chef-foodcritic coffee coffee-coffeelint coq css-csslint d-dmd emacs-lisp emacs-lisp-checkdoc erlang eruby-erubis fortran-gfortran go-gofmt go-golint go-vet go-build go-test go-errcheck go-unconvert groovy haml handlebars haskell-stack-ghc haskell-ghc haskell-hlint html-tidy jade javascript-eslint javascript-jshint javascript-gjslint javascript-jscs javascript-standard json-jsonlint json-python-json less lua-luacheck lua perl perl-perlcritic php php-phpmd php-phpcs processing puppet-parser puppet-lint python-flake8 python-pylint python-pycompile r-lintr racket rpm-rpmlint markdown-mdl rst-sphinx rst ruby-rubocop ruby-rubylint ruby ruby-jruby rust-cargo rust sass scala scala-scalastyle scss-lint scss sh-bash sh-posix-dash sh-posix-bash sh-zsh sh-shellcheck slim sql-sqlint tex-chktex tex-lacheck texinfo typescript-tslint verilog-verilator xml-xmlstarlet xml-xmllint yaml-jsyaml yaml-ruby flow))
  '(flycheck-javascript-flow-args nil)
  '(global-auto-revert-mode t)
  '(global-company-mode t)
  '(global-eclim-mode t)
  '(global-whitespace-mode t)
  '(grep-find-ignored-files
-   (quote
-    ("*.min.js" ".#*" "*.hi" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.cp" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo")))
+   '("*.min.js" ".#*" "*.hi" "*.o" "*~" "*.bin" "*.lbin" "*.so" "*.a" "*.ln" "*.blg" "*.bbl" "*.elc" "*.lof" "*.glo" "*.idx" "*.lot" "*.fmt" "*.tfm" "*.class" "*.fas" "*.lib" "*.mem" "*.x86f" "*.sparcf" "*.dfsl" "*.pfsl" "*.d64fsl" "*.p64fsl" "*.lx64fsl" "*.lx32fsl" "*.dx64fsl" "*.dx32fsl" "*.fx64fsl" "*.fx32fsl" "*.sx64fsl" "*.sx32fsl" "*.wx64fsl" "*.wx32fsl" "*.fasl" "*.ufsl" "*.fsl" "*.dxl" "*.lo" "*.la" "*.gmo" "*.mo" "*.toc" "*.aux" "*.cp" "*.fn" "*.ky" "*.pg" "*.tp" "*.vr" "*.cps" "*.fns" "*.kys" "*.pgs" "*.tps" "*.vrs" "*.pyc" "*.pyo"))
  '(helm-buffer-max-length 20)
  '(helm-full-frame nil)
  '(helm-reuse-last-window-split-state t)
  '(helm-split-window-in-side-p t)
  '(ido-enable-flex-matching t)
  '(ido-everywhere t)
- '(ido-mode (quote both) nil (ido))
+ '(ido-mode 'both nil (ido))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(ivy-extra-directories nil)
@@ -70,49 +64,42 @@
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
  '(markdown-header-scaling t)
- '(markdown-header-scaling-values (quote (2.1 1.7 1.4 1.1 1.0 1.0)))
+ '(markdown-header-scaling-values '(2.1 1.7 1.4 1.1 1.0 1.0))
  '(mocha-command "npm test")
  '(mocha-options "")
  '(mocha-which-node "")
- '(ns-right-command-modifier (quote super))
+ '(ns-right-command-modifier 'super)
  '(ns-use-native-fullscreen t)
  '(nxml-child-indent 4)
  '(org-adapt-indentation nil)
  '(org-agenda-clockreport-parameter-plist
-   (quote
-    (:link t :maxlevel 5 :step day :compact t :fileskip0 t :emphasize nil :formatter my-org-clocktable-notodo)))
+   '(:link t :maxlevel 5 :step day :compact t :fileskip0 t :emphasize nil :formatter my-org-clocktable-notodo))
  '(org-agenda-prefix-format
-   (quote
-    ((agenda . " %i %-12:c%?-12t% s")
+   '((agenda . " %i %-12:c%?-12t% s")
      (timeline . "  % s")
      (todo . " %b")
      (tags . " %i %-12:c")
-     (search . " %i %-12:c"))))
+     (search . " %i %-12:c")) t)
  '(org-agenda-sticky t)
- '(org-babel-load-languages (quote ((emacs-lisp . t) (shell . t) (js . t))))
+ '(org-babel-load-languages '((emacs-lisp . t) (shell . t) (js . t)))
  '(org-capture-templates
-   (quote
-    (("x" "Next" entry
+   '(("x" "Next" entry
       (file+headline "~/Dropbox/Mediasmiths/org/gtd.org" "Next")
       "* TODO %?")
      ("j" "Copy jira issue" entry
       (file+headline "~/Dropbox/Mediasmiths/org/gtd.org" "Inbox")
-      "* TODO %i 
-%a")
+      "* TODO %i \12%a")
      ("i" "Idea" entry
       (file+headline "~/Dropbox/Mediasmiths/org/gtd.org" "Ideas")
-      "* %?
-%U")
+      "* %?\12%U")
      ("t" "Todo" entry
       (file+headline "~/Dropbox/Mediasmiths/org/gtd.org" "Tasks")
-      "* TODO %?
-  %i
-")
+      "* TODO %?\12  %i\12")
      ("m" "Time tracking")
      ("mi" "Internal")
      ("mii" "Internal IT" entry
       (file+olp "~/Dropbox/Mediasmiths/org/gtd.org" "Time" "Internal" "Internal IT")
-      "* %?" :clock-in t :clock-keep t))))
+      "* %?" :clock-in t :clock-keep t)))
  '(org-clock-history-length 10)
  '(org-clock-into-drawer t)
  '(org-completion-use-ido t)
@@ -120,51 +107,43 @@
  '(org-directory "~/Dropbox/Mediasmiths/org")
  '(org-export-html-postamble t)
  '(org-export-html-postamble-format
-   (quote
-    (("en" "<p class=\"author\">Author: %a (%e)</p><p class=\"date\">Date: %d</p>"))))
+   '(("en" "<p class=\"author\">Author: %a (%e)</p><p class=\"date\">Date: %d</p>")))
  '(org-export-html-style
    "<link rel=\"stylesheet\" type=\"text/css\" href=\"//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css\" /><meta name=\"viewport\" content=\"initial-scale = 1.0,maximum-scale = 1.0\" />")
  '(org-hide-leading-stars t)
  '(org-mobile-directory "~/Dropbox/Apps/MobileOrg" t)
  '(org-mobile-files
-   (quote
-    (org-agenda-files "gtd.org" "gtd.org_archive" "journal.org")))
+   '(org-agenda-files "gtd.org" "gtd.org_archive" "journal.org"))
  '(org-mobile-inbox-for-pull "~/Dropbox/Mediasmiths/org/inbox.org" t)
  '(org-refile-targets
-   (quote
-    ((org-agenda-files :tag . "")
-     ("~/Dropbox/Mediasmiths/org/gtd.org" :maxlevel . 3))))
+   '((org-agenda-files :tag . "")
+     ("~/Dropbox/Mediasmiths/org/gtd.org" :maxlevel . 3)))
  '(org-time-clocksum-use-effort-durations t)
  '(package-selected-packages
-   (quote
-    (counsel ivy json-mode deft dired-quick-sort magithub key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme)))
+   '(treemacs projectile helm s counsel ivy json-mode deft dired-quick-sort forge key-chord pandoc-mode company tern lsp-javascript-typescript company-lsp lsp-mode magit yasnippet yaml-mode whole-line-or-region web-mode w3m use-package treemacs-projectile terraform-mode tao-theme solarized-theme smooth-scrolling smex smart-mode-line skewer-mode robe rjsx-mode restclient paredit ox-reveal outshine org-jira nvm neotree navi-mode mocha markdown-mode js2-closure jabber inf-clojure import-js iedit ido-ubiquitous helm-projectile helm-google haskell-mode groovy-mode go-mode git-rebase-mode git-commit-mode flycheck-flow flatui-theme exec-path-from-shell emmet-mode emacs-eclim editorconfig dumb-jump dash-at-point company-tern company-flow auto-indent-mode ample-theme))
  '(projectile-enable-caching t)
  '(projectile-mode-line " Proj")
- '(rm-blacklist (quote (" MRev" " ,")))
+ '(rm-blacklist '(" MRev" " ,"))
  '(safe-local-variable-values
-   (quote
-    ((cursor-type quote bar)
+   '((cursor-type quote bar)
      (js2-basic-offset . 4)
      (js2-basic-offset . 2)
-     (company-mode))))
+     (company-mode)))
  '(scroll-bar-mode nil)
- '(send-mail-function (quote mailclient-send-it))
+ '(send-mail-function 'mailclient-send-it)
  '(sgml-basic-offset 2)
  '(show-paren-mode t)
- '(sml/mode-width (quote full))
+ '(sml/mode-width 'full)
  '(sml/no-confirm-load-theme t)
  '(sml/shorten-modes t)
- '(sml/theme (quote respectful))
+ '(sml/theme 'respectful)
  '(split-height-threshold 1000)
  '(split-width-threshold 1000)
  '(tab-width 4)
- '(tool-bar-mode nil)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ '(uniquify-buffer-name-style 'forward nil (uniquify))
  '(user-mail-address "jacobhakansson@gmail.com")
- '(wdired-allow-to-change-permissions (quote advanced))
- '(whitespace-style
-   (quote
-    (face tabs space-after-tab space-before-tab tab-mark)))
+ '(wdired-allow-to-change-permissions 'advanced)
+ '(whitespace-style '(face tabs space-after-tab space-before-tab tab-mark))
  '(whole-line-or-region-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -175,18 +154,23 @@
  '(sml/git ((t (:foreground "#d62f0f"))))
  '(variable-pitch ((t (:height 140 :family "Helvetica Neue")))))
 
-(setenv "DOCKER_HOST" "tcp://192.168.99.100:2376")
-(setenv "DOCKER_MACHINE_NAME" "default")
-(setenv "DOCKER_TLS_VERIFY" "1")
-(setenv "DOCKER_CERT_PATH" "/Users/jacobhakansson/.docker/machine/machines/default")
-(setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home")
-(setenv "MULE_HOME" "/Users/jacobhakansson/Developer/DevTools/mmc-distribution-mule-console-bundle-3.5.2-HF1/mule-enterprise-3.5.2")
-;;(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin:/Users/jacobhakansson/.scripts:/Library/TeX/texbin:/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin:")
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
+
+(when (eq system-type 'darwin)
+  (setenv "DOCKER_HOST" "tcp://192.168.99.100:2376")
+  (setenv "DOCKER_MACHINE_NAME" "default")
+  (setenv "DOCKER_TLS_VERIFY" "1")
+  (setenv "DOCKER_CERT_PATH" "/Users/jacobhakansson/.docker/machine/machines/default")
+  (setenv "JAVA_HOME" "/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home")
+  (setenv "MULE_HOME" "/Users/jacobhakansson/Developer/DevTools/mmc-distribution-mule-console-bundle-3.5.2-HF1/mule-enterprise-3.5.2")
+  ;;(setenv "PATH" "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/jacobhakansson/Developer/DevTools/apache-maven-3.2.3/bin:/Users/jacobhakansson/.scripts:/Library/TeX/texbin:/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin:")
+  )
 (setenv "NODE_PATH" "/usr/local/lib/node_modules/")
 
 (require 'package)
 (package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -198,7 +182,7 @@
   (setq sml/no-confirm-load-theme t)
   (sml/setup))
 
-(load-file "./.emacs.d/simple-red-theme-dark.el")
+(load-file (expand-file-name "~/.emacs.d/simple-red-theme-dark.el"))
 
 ;; (use-package tao-theme
 ;;              :ensure t
@@ -232,18 +216,16 @@
 (autoload 'tern-mode "tern.el" nil t)
 (use-package smooth-scrolling :ensure t)
 (use-package magit :ensure t)
-(use-package magithub
+(use-package forge
   :after magit
-  :ensure t
-  :config
-  (magithub-feature-autoinject t))
+  :ensure t)
 (use-package flycheck-flow :ensure t)
-(global-set-key (kbd "s-m") 'magit-status)
+(global-set-key (kbd "C-c g") 'magit-status)
 (use-package s :ensure t) ;; dependency of dumb-jump
 (use-package dumb-jump
   :bind (("M-g o" . dumb-jump-go-other-window)
-         ("s-." . dumb-jump-go)
-         ("s->" . dumb-jump-back)
+         ("C-c ." . dumb-jump-go)
+         ("C-c >" . dumb-jump-back)
          ("M-g x" . dumb-jump-go-prefer-external)
          ("M-g z" . dumb-jump-go-prefer-external-other-window))
   :config (setq dumb-jump-selector 'helm)
@@ -286,7 +268,7 @@
 (defun helm-grep-with-thing-at-point ()
   (interactive)
   (helm-grep-git-1 default-directory t nil (thing-at-point 'symbol)))
-(global-set-key (kbd "s-r") 'helm-grep-with-thing-at-point)
+(global-set-key (kbd "C-c s") 'helm-grep-with-thing-at-point)
 
 
 (setq kill-whole-line t)
@@ -302,7 +284,7 @@
 (add-hook 'ido-setup-hook #'bind-ido-keys)
 
 (use-package exec-path-from-shell :ensure t)
-(when (memq window-system '(mac ns))
+(when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
 (use-package yasnippet :ensure t)
@@ -395,14 +377,16 @@
 (global-set-key (kbd "M-p") 'paredit-forward-slurp-sexp)
 
 (set-variable 'magit-emacsclient-executable
-			  "/usr/local/Cellar/emacs/24.4/bin/emacsclient")
+              (if (eq system-type 'darwin)
+                  "/usr/local/Cellar/emacs/24.4/bin/emacsclient"
+                (executable-find "emacsclient")))
 (global-set-key (kbd "C-c m") 'comment-or-uncomment-region)
 
 (defun forward-window () (interactive) (other-window 1))
 (defun backward-window () (interactive) (other-window -1))
-(global-set-key (kbd "s-{") 'backward-window)
-(global-set-key (kbd "s-}") 'forward-window)
-(global-set-key (kbd "s-§") 'other-frame)
+(global-set-key (kbd "C-c [") 'backward-window)
+(global-set-key (kbd "C-c ]") 'forward-window)
+(global-set-key (kbd "C-c 0") 'other-frame)
 
  
 ;; --------ORG MODE------------------
@@ -441,10 +425,10 @@
 (global-set-key (kbd "C-c C-x g") 'org-clock-goto)
 (global-set-key (kbd "C-c C-x t") 'org-insert-current-task-id)
 (global-set-key (kbd "C-c C-j") 'capture-jira-copy-command)
-(global-set-key (kbd "s-j") 'capture-jira-copy-command)
-(global-set-key (kbd "s-l") 'org-show-work-list)
-(global-set-key (kbd "s-i") 'org-select-clock-in)
-(global-set-key (kbd "s-k") 'org-capture)
+(global-set-key (kbd "C-c j") 'capture-jira-copy-command)
+(global-set-key (kbd "C-c l") 'org-show-work-list)
+(global-set-key (kbd "C-c i") 'org-select-clock-in)
+(global-set-key (kbd "C-c k") 'org-capture)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c r") 'org-archive-done-tasks)
 
@@ -594,14 +578,19 @@
 
 (defun fetch-my-jira-issues ()
   (interactive)
-  (start-process "fetch-jira" "*fetch-jira-output*" "node" "/Users/jacobhakansson/Developer/jira-org/fetch.js"))
+  (let ((script (expand-file-name "~/Developer/jira-org/fetch.js")))
+    (if (file-exists-p script)
+        (start-process "fetch-jira" "*fetch-jira-output*" "node" script)
+      (message "Jira fetch script not found: %s" script))))
   
 (fset 'notToJson
    [?\M-% ?, ?  return ?\" ?, ?  return ?! ?\C-a ?\M-% ?= return ?\" ?: ?  return ?! ?\C-e ?\C-b ?| backspace ?\" ?\C-d ?\C-a ?\C-f ?\" ?\M-% ?\" ?\[ return ?\[ return ?!])
 
 ;; Open stuff at start up
-(find-file "~/Documents/scratch.org")
-(find-file "~/Dropbox/Mediasmiths/org/gtd.org")
+(when (file-exists-p "~/Documents/scratch.org")
+  (find-file "~/Documents/scratch.org"))
+(when (file-exists-p "~/Dropbox/Mediasmiths/org/gtd.org")
+  (find-file "~/Dropbox/Mediasmiths/org/gtd.org"))
 
 (defun indent-sexp-or-region ()
   (interactive)
@@ -671,7 +660,7 @@
     (treemacs-filewatch-mode t))
   :bind
   (:map global-map
-        ("s-t"       . treemacs-toggle)
+        ("C-c t"     . treemacs-toggle)
         ("M-0"       . treemacs-select-window)
         ("C-c 1"     . treemacs-delete-other-windows)))
 
@@ -702,11 +691,12 @@
   :ensure t
   :config
   (dired-quick-sort-setup))
-(setq insert-directory-program "/usr/local/bin/gls")
+(setq insert-directory-program
+      (if (eq system-type 'darwin) "/usr/local/bin/gls" "ls"))
 
 (use-package deft
   :ensure t
-  :bind ("s-d" . deft)
+  :bind ("C-c d" . deft)
   :commands (deft)
   :config (setq deft-directory "~/Dropbox/notes"
                 deft-extensions '("md" "org")
@@ -730,6 +720,7 @@
   :config
   (counsel-mode 1))
 
-(setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
-(setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin"))
+(when (eq system-type 'darwin)
+  (setq exec-path (append exec-path '("/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
+  (setenv "PATH" (concat (getenv "PATH") ":/Users/jacobhakansson/.nvm/versions/node/v6.0.0/bin")))
 ;;; .emacs ends here 
