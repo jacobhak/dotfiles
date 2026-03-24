@@ -5,5 +5,11 @@
     "slack@claude-plugins-official": true
   },
   "alwaysThinkingEnabled": true,
-  "effortLevel": "medium"
+  "effortLevel": "medium",
+  "permissions": {
+    "allow": [
+      "mcp__bobbens-bots__read_messages",
+      "mcp__bobbens-bots__send_message"
+    ]
+  }
 }

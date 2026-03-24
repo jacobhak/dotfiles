@@ -6,9 +6,8 @@ set -g mouse on
 set -g history-limit 100000
 set -g allow-passthrough on
 setw -g aggressive-resize on
-set -g prefix C-]
-unbind C-b
-bind C-] send-prefix
+set -g prefix C-b
+bind C-b send-prefix
 
 {% if yadm.os == "Darwin" %}
 bind-key O run-shell "tmux show-buffer | tr -d '\n' | xargs open"

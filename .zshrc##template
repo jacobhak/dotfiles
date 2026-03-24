@@ -44,6 +44,13 @@ source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
 {% endif %}
 
+# SSH agent (systemd-managed, fixed socket path)
+{% if yadm.os == "Darwin" %}
+{% else %}
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+ssh-add ~/.ssh/id_ed25519 2>/dev/null
+{% endif %}
+
 # Pass SSH_TTY to tmux so clipetty/OSC 52 clipboard works over SSH
 if [ -n "$TMUX" ] && [ -n "$SSH_TTY" ]; then
     tmux set-environment SSH_TTY "$SSH_TTY"

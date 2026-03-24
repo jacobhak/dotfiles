@@ -14,6 +14,12 @@
 !/.ssh
 !/.ssh/config##template
 
+# systemd user services
+!/.config
+!/.config/systemd
+!/.config/systemd/user
+!/.config/systemd/user/ssh-agent.service
+
 # Claude Code
 !/.claude
 !/.claude/settings.json
