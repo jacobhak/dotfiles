@@ -13,6 +13,9 @@ bind '"' split-window -v -c "#{pane_current_path}"
 bind % split-window -h -c "#{pane_current_path}"
 bind c new-window -c "#{pane_current_path}"
 
+set -g automatic-rename on
+set -g automatic-rename-format '#{b:pane_current_path}'
+
 {% if yadm.os == "Darwin" %}
 bind-key O run-shell "tmux show-buffer | tr -d '\n' | xargs open"
 run '/opt/homebrew/opt/tpm/share/tpm/tpm'
