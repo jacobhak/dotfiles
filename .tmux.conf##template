@@ -7,6 +7,8 @@ set -g @continuum-save-interval '15'
 set -g mouse on
 set -g history-limit 100000
 set -g allow-passthrough on
+set -s set-clipboard on
+set -as terminal-features ',xterm*:clipboard,screen*:clipboard,tmux-256color:clipboard,alacritty:clipboard,wezterm:clipboard,foot*:clipboard,kitty:clipboard'
 setw -g aggressive-resize on
 set -g prefix C-b
 bind C-b send-prefix

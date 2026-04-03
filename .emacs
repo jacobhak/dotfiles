@@ -319,13 +319,20 @@
 (use-package company-flow :ensure t)
 ;; Company
 (use-package company :ensure t)
+
+(defun my-js-tern-available-p ()
+  "Return non-nil when the Tern runtime can be started."
+  (executable-find "node"))
+
 ;;(add-to-list 'company-backends 'company-tern)
 (eval-after-load 'company
   '(progn
-	 (add-to-list 'company-backends 'company-robe)
-	 (add-to-list 'company-backends 'company-flow)
-	 (add-to-list 'company-backends 'company-tern)
-	 (global-company-mode t)))
+     (setq company-backends (remove 'company-tern company-backends))
+     (add-to-list 'company-backends 'company-robe)
+     (add-to-list 'company-backends 'company-flow)
+     (when (my-js-tern-available-p)
+       (add-to-list 'company-backends 'company-tern))
+     (global-company-mode t)))
 
 (defun company-complete-common-or-cycle ()
   "Insert the common part of all candidates, or select the next one."
@@ -379,7 +386,8 @@
   (global-flycheck-mode))
 
 (defun js-hook ()
-  (tern-mode t)
+  (when (my-js-tern-available-p)
+    (tern-mode t))
   (flycheck-mode t)
   (key-chord-define rjsx-mode-map ";;" "\C-e;"))
 
