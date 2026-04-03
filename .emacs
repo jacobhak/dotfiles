@@ -713,7 +713,9 @@
   :config
   (dired-quick-sort-setup))
 (setq insert-directory-program
-      (if (eq system-type 'darwin) "/usr/local/bin/gls" "ls"))
+      (if (eq system-type 'darwin)
+          (or (executable-find "gls") "ls")
+        "ls"))
 
 (use-package deft
   :ensure t
