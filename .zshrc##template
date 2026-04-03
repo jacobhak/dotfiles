@@ -70,9 +70,12 @@ if [ -n "$TMUX" ] && [ -n "$SSH_TTY" ]; then
 fi
 
 alias tp='tmux-picker'
+unalias e 2>/dev/null
 
 e() {
-    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    if [[ "$OSTYPE" == darwin* ]] && [ -z "${SSH_CONNECTION:-}" ]; then
+        emacsclient -n -c "$@"
+    elif [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
         emacsclient -n -c "$@"
     else
         emacsclient -t "$@"
