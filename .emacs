@@ -174,6 +174,24 @@
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
+(setq desktop-dirname user-emacs-directory
+      desktop-base-file-name "desktop"
+      desktop-path (list desktop-dirname)
+      desktop-save t
+      desktop-load-locked-desktop t
+      desktop-restore-frames t)
+(desktop-save-mode 1)
+(save-place-mode 1)
+(savehist-mode 1)
+(add-hook 'kill-emacs-hook
+          (lambda ()
+            (desktop-save desktop-dirname t)))
+(when (file-exists-p (expand-file-name desktop-base-file-name desktop-dirname))
+  (desktop-read desktop-dirname))
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))

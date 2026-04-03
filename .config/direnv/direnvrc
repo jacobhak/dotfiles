@@ -1,0 +1,22 @@
+use_poetry_venv() {
+    local project_dir="${1:-.}"
+    local venv_path
+
+    watch_file "${project_dir}/pyproject.toml"
+    watch_file "${project_dir}/poetry.lock"
+
+    if ! has poetry; then
+        log_status "poetry not found"
+        return 0
+    fi
+
+    venv_path="$(poetry -C "$project_dir" env info --path 2>/dev/null || true)"
+    if [ -z "$venv_path" ] || [ ! -d "$venv_path" ]; then
+        log_status "No Poetry environment for ${project_dir}. Run 'poetry install'."
+        return 0
+    fi
+
+    export POETRY_ACTIVE=1
+    export VIRTUAL_ENV="$venv_path"
+    PATH_add "$VIRTUAL_ENV/bin"
+}

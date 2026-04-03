@@ -16,6 +16,8 @@
 
 # systemd user services
 !/.config
+!/.config/direnv
+!/.config/direnv/direnvrc
 !/.config/systemd
 !/.config/systemd/user
 !/.config/systemd/user/ssh-agent.service
@@ -43,5 +45,12 @@
 
 # macOS
 !/Library*
+!/Library/LaunchAgents*
+!/Library/LaunchAgents/com.jacobhak.emacs-daemon.plist
 !/Library/KeyBindings*
 !/Library/KeyBindings/DefaultKeyBinding.dict
+
+# local scripts
+!/.local
+!/.local/bin
+!/.local/bin/bootstrap-workflow

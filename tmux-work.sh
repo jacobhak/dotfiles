@@ -1,27 +1,15 @@
 #!/usr/bin/env bash
 
-# Kill existing session if it exists
-tmux has-session -t work 2>/dev/null && tmux kill-session -t work
+set -euo pipefail
 
-# Create session and first window (data-pipelines)
-tmux new-session -d -s work -n data-pipelines
-tmux send-keys -t work:0 "cd ~/code/voi/data-pipelines/transform/" C-m
-tmux send-keys -t work:0 "source env/bin/activate" C-m
+session_name="${1:-work}"
 
-# Window 2: task-automation (first pane)
-tmux new-window -t work:1 -n mmi-re
-tmux send-keys -t work:1 "cd ~/code/voi/mmi-re-service/pipelines/" C-m
-tmux send-keys -t work:1 "source \$(poetry env info --path)/bin/activate" C-m
-tmux send-keys -t work:1 "source ../.pat.rc" C-m
+if tmux has-session -t "$session_name" 2>/dev/null; then
+    exec tmux attach-session -t "$session_name"
+fi
 
-# Split panes in mmi-re window
-tmux split-window -h -t work:1
-tmux send-keys -t work:1.1 "cd ~/code/voi/mmi-re-service/service/" C-m
-tmux send-keys -t work:1.1 "source \$(poetry env info --path)/bin/activate" C-m
+if tmux list-sessions >/dev/null 2>&1; then
+    exec tmux attach-session
+fi
 
-tmux split-window -h -t work:1
-tmux send-keys -t work:1.2 "cd ~/code/voi/mmi-re-service/service/source/" C-m
-tmux send-keys -t work:1.2 "source \$(poetry env info --path)/bin/activate" C-m
-
-# Attach session
-tmux attach -t work
+exec tmux new-session -s "$session_name"

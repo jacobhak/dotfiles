@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.jacobhak.emacs-daemon</string>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>-lc</string>
+        <string>export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"; exec emacs --fg-daemon</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardErrorPath</key>
+    <string>/tmp/com.jacobhak.emacs-daemon.err</string>
+    <key>StandardOutPath</key>
+    <string>/tmp/com.jacobhak.emacs-daemon.out</string>
+</dict>
+</plist>

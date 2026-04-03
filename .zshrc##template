@@ -36,6 +36,11 @@ export PATH="$PATH:$HOME/.local/bin"
 # poetry
 export PATH="$PATH:$HOME/.poetry/bin"
 
+# direnv
+if command -v direnv >/dev/null 2>&1; then
+    eval "$(direnv hook zsh)"
+fi
+
 # fzf
 {% if yadm.os == "Darwin" %}
 source <(fzf --zsh)
@@ -47,8 +52,16 @@ source /usr/share/doc/fzf/examples/completion.zsh
 # SSH agent (systemd-managed, fixed socket path)
 {% if yadm.os == "Darwin" %}
 {% else %}
+if [ -z "${XDG_RUNTIME_DIR:-}" ] && [ -d "/run/user/$(id -u)" ]; then
+    export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+fi
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
-ssh-add ~/.ssh/id_ed25519 2>/dev/null
+if [ -S "$SSH_AUTH_SOCK" ] && [ -f ~/.ssh/id_ed25519 ]; then
+    ssh-add -l >/dev/null 2>&1
+    if [ $? -eq 1 ] || ! ssh-add -l 2>/dev/null | grep -Fq "$(ssh-keygen -lf ~/.ssh/id_ed25519.pub 2>/dev/null | awk '{print $2}')"; then
+        ssh-add ~/.ssh/id_ed25519 2>/dev/null
+    fi
+fi
 {% endif %}
 
 # Pass SSH_TTY to tmux so clipetty/OSC 52 clipboard works over SSH
@@ -57,6 +70,14 @@ if [ -n "$TMUX" ] && [ -n "$SSH_TTY" ]; then
 fi
 
 alias tp='tmux-picker'
+
+e() {
+    if [ -n "${DISPLAY:-}" ] || [ -n "${WAYLAND_DISPLAY:-}" ]; then
+        emacsclient -n -c "$@"
+    else
+        emacsclient -t "$@"
+    fi
+}
 
 # Source local secrets/overrides (not tracked by yadm)
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
@@ -67,6 +88,5 @@ export PATH="$HOME/.opencode/bin:$PATH"
 export EDITOR='emacs'
 {% if yadm.os == "Darwin" %}
 export EDITOR='emacsclient'
-alias e='emacsclient -n'
 export PATH='$HOME/.duckdb/cli/latest':$PATH
 {% endif %}

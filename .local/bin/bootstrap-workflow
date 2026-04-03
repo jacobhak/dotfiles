@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+install_direnv() {
+    if command -v direnv >/dev/null 2>&1; then
+        return
+    fi
+
+    case "$(uname -s)" in
+        Linux)
+            sudo apt-get update
+            sudo apt-get install -y direnv
+            ;;
+        Darwin)
+            if ! command -v brew >/dev/null 2>&1; then
+                echo "Homebrew is required to install direnv on macOS." >&2
+                exit 1
+            fi
+            brew install direnv
+            ;;
+        *)
+            echo "Unsupported OS: $(uname -s)" >&2
+            exit 1
+            ;;
+    esac
+}
+
+install_tpm() {
+    if [ -d "$HOME/.tmux/plugins/tpm" ]; then
+        return
+    fi
+
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
+}
+
+install_tmux_plugins() {
+    "$HOME/.tmux/plugins/tpm/bin/install_plugins"
+}
+
+enable_emacs_daemon() {
+    case "$(uname -s)" in
+        Linux)
+            sudo install -Dm644 \
+                "$HOME/dev-vm-setup/systemd/emacs.service" \
+                /etc/systemd/system/emacs.service
+            sudo systemctl daemon-reload
+            sudo systemctl enable --now emacs.service
+            ;;
+        Darwin)
+            launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.jacobhak.emacs-daemon.plist" >/dev/null 2>&1 || true
+            launchctl bootstrap "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.jacobhak.emacs-daemon.plist"
+            launchctl kickstart -k "gui/$(id -u)/com.jacobhak.emacs-daemon"
+            ;;
+        *)
+            echo "Unsupported OS: $(uname -s)" >&2
+            exit 1
+            ;;
+    esac
+}
+
+install_direnv
+install_tpm
+install_tmux_plugins
+enable_emacs_daemon
