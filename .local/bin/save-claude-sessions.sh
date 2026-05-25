@@ -2,37 +2,28 @@
 # Save Claude session IDs per tmux pane before shutdown/reboot.
 # Output: ~/.claude-pane-sessions, one line per pane: "<cwd> <session-id>"
 # Multiple panes in the same dir are saved in order, consumed in order on restore.
+# Uses ~/.claude/sessions/<pid>.json written by Claude Code for each running session.
 
-set -euo pipefail
+set -eo pipefail
 
 SAVEFILE="$HOME/.claude-pane-sessions"
 > "$SAVEFILE"
 
-pgrep -x tmux > /dev/null 2>&1 || { echo "tmux not running, nothing to save"; exit 0; }
+tmux list-sessions > /dev/null 2>&1 || { echo "tmux not running, nothing to save"; exit 0; }
 
-# --- Find all processes with a Claude session file open ---
-# Returns lines of: <pid> <session-id>
-
+# --- Build pid -> session-id map from ~/.claude/sessions/<pid>.json ---
 declare -A pid_to_session
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    while read -r pid filepath; do
-        session_id=$(basename "$filepath" .jsonl)
-        pid_to_session["$pid"]="$session_id"
-    done < <(
-        lsof 2>/dev/null \
-            | grep "\.claude/projects/.*\.jsonl" \
-            | awk '{print $2, $NF}'
-    )
-else
-    for fd_link in /proc/[0-9]*/fd/*; do
-        target=$(readlink "$fd_link" 2>/dev/null) || continue
-        [[ "$target" == *".claude/projects/"*".jsonl" ]] || continue
-        pid=$(echo "$fd_link" | cut -d/ -f3)
-        session_id=$(basename "$target" .jsonl)
-        pid_to_session["$pid"]="$session_id"
-    done
-fi
+for session_file in "$HOME/.claude/sessions/"*.json; do
+    [ -f "$session_file" ] || continue
+    pid=$(basename "$session_file" .json)
+    session_id=$(python3 -c "
+import json, sys
+with open('$session_file') as f:
+    print(json.load(f)['sessionId'])
+" 2>/dev/null) || continue
+    pid_to_session["$pid"]="$session_id"
+done
 
 if [ ${#pid_to_session[@]} -eq 0 ]; then
     echo "No active Claude sessions found"
