@@ -70,6 +70,7 @@ if [ -n "$TMUX" ] && [ -n "$SSH_TTY" ]; then
 fi
 
 alias tp='tmux-picker'
+alias prepare-reboot='save-claude-sessions.sh && tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/save.sh && echo "✓ Ready to reboot"'
 unalias e 2>/dev/null
 
 e() {

@@ -54,3 +54,5 @@
 !/.local
 !/.local/bin
 !/.local/bin/bootstrap-workflow
+!/.local/bin/save-claude-sessions.sh
+!/.local/bin/claude-restore.sh
