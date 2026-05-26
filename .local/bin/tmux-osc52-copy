@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+tty_path="$(tmux display-message -p '#{client_tty}' 2>/dev/null || true)"
+if [[ -z "${tty_path}" ]]; then
+  tty_path="${SSH_TTY:-}"
+fi
+
+if [[ -z "${tty_path}" || ! -w "${tty_path}" ]]; then
+  exit 0
+fi
+
+# OSC 52 expects one base64-encoded line with no wrapping.
+payload="$(base64 | tr -d '\r\n')"
+printf '\033]52;c;%s\a' "${payload}" > "${tty_path}"
