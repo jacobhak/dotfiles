@@ -9,8 +9,15 @@ install_direnv() {
 
     case "$(uname -s)" in
         Linux)
-            sudo apt-get update
-            sudo apt-get install -y direnv
+            if command -v pacman >/dev/null 2>&1; then
+                sudo pacman -Sy --noconfirm --needed direnv
+            elif command -v apt-get >/dev/null 2>&1; then
+                sudo apt-get update
+                sudo apt-get install -y direnv
+            else
+                echo "Unsupported Linux package manager for installing direnv." >&2
+                exit 1
+            fi
             ;;
         Darwin)
             if ! command -v brew >/dev/null 2>&1; then
@@ -41,8 +48,24 @@ install_tmux_plugins() {
 enable_emacs_daemon() {
     case "$(uname -s)" in
         Linux)
+            if ! command -v emacs >/dev/null 2>&1; then
+                echo "emacs not found; skipping Emacs daemon setup."
+                return
+            fi
+
+            local service_file="$HOME/dev-vm-setup/systemd/emacs.service"
+            if [ ! -f "$service_file" ]; then
+                echo "No Linux Emacs service file found at $service_file; skipping Emacs daemon setup."
+                return
+            fi
+
+            if ! grep -qx "User=$(id -un)" "$service_file"; then
+                echo "Emacs service is not configured for user $(id -un); skipping Emacs daemon setup."
+                return
+            fi
+
             sudo install -Dm644 \
-                "$HOME/dev-vm-setup/systemd/emacs.service" \
+                "$service_file" \
                 /etc/systemd/system/emacs.service
             sudo systemctl daemon-reload
             sudo systemctl enable --now emacs.service
