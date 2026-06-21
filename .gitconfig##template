@@ -6,7 +6,7 @@
 {% if yadm.os == "Darwin" %}
     signingkey = /Users/jacobhakansson/.ssh/id_ed25519.pub
 {% else %}
-    signingkey = /home/jacob/.ssh/id_ed25519.pub
+    signingkey = ~/.ssh/id_ed25519_github.pub
 {% endif %}
     email = jacobhakansson@gmail.com
 [commit]

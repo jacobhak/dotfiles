@@ -6,7 +6,7 @@ default:
 {% if yadm.os == "Darwin" %}
       private_key_path: /Users/jacobhakansson/.ssh/rsa_key.p8
 {% else %}
-      private_key_path: /home/jacob/.ssh/rsa_key.p8
+      private_key_path: /home/{{ yadm.user }}/.ssh/rsa_key.p8
 {% endif %}
       private_key_passphrase: "{{ env_var('SNOWFLAKE_KEY_PASSPHRASE') }}"
       role: developer
