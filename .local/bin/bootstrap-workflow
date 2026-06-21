@@ -157,6 +157,50 @@ configure_omarchy_shell() {
     fi
 }
 
+configure_omarchy_macos_shortcuts() {
+    local hypr_bindings
+    local begin_marker='# BEGIN dotfiles macOS-style browser shortcuts'
+    local end_marker='# END dotfiles macOS-style browser shortcuts'
+
+    if ! is_omarchy; then
+        return
+    fi
+
+    hypr_bindings="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/bindings.conf"
+
+    if [ ! -f "$hypr_bindings" ]; then
+        return
+    fi
+
+    if grep -Fxq "$begin_marker" "$hypr_bindings"; then
+        sed -i "/^$begin_marker$/,/^$end_marker$/d" "$hypr_bindings"
+    fi
+
+    cat >> "$hypr_bindings" <<'EOF'
+
+# BEGIN dotfiles macOS-style browser shortcuts
+unbind = SUPER, W
+unbind = SUPER, T
+unbind = SUPER, L
+unbind = SUPER SHIFT, bracketleft
+unbind = SUPER SHIFT, bracketright
+unbind = SUPER, braceleft
+unbind = SUPER, braceright
+bindd = SUPER, W, Close tab/window, exec, omarchy-macos-browser-shortcut close
+bindd = SUPER, T, New tab/toggle floating, exec, omarchy-macos-browser-shortcut new-tab
+bindd = SUPER, L, Focus location/layout, exec, omarchy-macos-browser-shortcut focus-location
+bindd = SUPER SHIFT, bracketleft, Previous browser tab, exec, omarchy-macos-browser-shortcut previous-tab
+bindd = SUPER SHIFT, bracketright, Next browser tab, exec, omarchy-macos-browser-shortcut next-tab
+bindd = SUPER, braceleft, Previous browser tab, exec, omarchy-macos-browser-shortcut previous-tab
+bindd = SUPER, braceright, Next browser tab, exec, omarchy-macos-browser-shortcut next-tab
+# END dotfiles macOS-style browser shortcuts
+EOF
+
+    if command -v hyprctl >/dev/null 2>&1; then
+        hyprctl reload >/dev/null 2>&1 || true
+    fi
+}
+
 configure_git_ssh_signing_verification() {
     local signing_key
     local email
@@ -193,6 +237,18 @@ ensure_tmux_xdg_sources_user_config() {
 
     mkdir -p "$(dirname "$xdg_tmux_conf")"
     touch "$xdg_tmux_conf"
+
+    if is_omarchy; then
+        sed -i \
+            -e '/^# Prefix$/,/^# General$/ { /^# General$/!d; }' \
+            -e '/^setw -g mode-keys /d' \
+            -e '/^bind -T copy-mode-vi /d' \
+            "$xdg_tmux_conf"
+
+        if ! grep -Fxq 'setw -g mode-keys emacs' "$xdg_tmux_conf"; then
+            sed -i '/^# General$/i setw -g mode-keys emacs' "$xdg_tmux_conf"
+        fi
+    fi
 
     if ! grep -Fxq "$source_line" "$xdg_tmux_conf"; then
         printf '\n%s\n' "$source_line" >> "$xdg_tmux_conf"
@@ -239,6 +295,7 @@ install_direnv
 install_zsh
 install_emacs
 configure_omarchy_shell
+configure_omarchy_macos_shortcuts
 configure_git_ssh_signing_verification
 install_tpm
 ensure_tmux_xdg_sources_user_config

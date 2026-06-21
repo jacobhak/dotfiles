@@ -15,6 +15,7 @@ set -ga update-environment "SSH_TTY"
 set -as terminal-overrides ',xterm-256color:Ms=\E]52;c;%p2%s\007'
 set -as terminal-features ',xterm*:clipboard,screen*:clipboard,tmux-256color:clipboard,alacritty:clipboard,wezterm:clipboard,foot*:clipboard,kitty:clipboard'
 setw -g aggressive-resize on
+setw -g mode-keys emacs
 set -g prefix C-b
 bind C-b send-prefix
 set -g default-shell "${SHELL}"
