@@ -2,7 +2,10 @@
     user = jacobhak
 [gpg]
     format = ssh
+[gpg "ssh"]
+    allowedSignersFile = ~/.ssh/allowed_signers
 [user]
+    name = Jacob Hakansson
 {% if yadm.os == "Darwin" %}
     signingkey = /Users/jacobhakansson/.ssh/id_ed25519.pub
 {% else %}
