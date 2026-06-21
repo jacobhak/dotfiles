@@ -27,6 +27,8 @@
 !/.claude/settings.json
 !/.claude/skills
 !/.claude/skills/**
+/.claude/skills/omarchy
+/.claude/skills/omarchy/**
 
 # dbt
 !/.dbt
