@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+action="${1:-}"
+
+case "$action" in
+    close | focus-location | new-tab | previous-tab | next-tab) ;;
+    *)
+        echo "Usage: ${0##*/} close|focus-location|new-tab|previous-tab|next-tab" >&2
+        exit 2
+        ;;
+esac
+
+active_class() {
+    if command -v jq >/dev/null 2>&1; then
+        local class
+        class="$(hyprctl activewindow -j 2>/dev/null | jq -r '.class // ""' 2>/dev/null || true)"
+        if [ -n "$class" ]; then
+            printf '%s\n' "$class"
+            return
+        fi
+    fi
+
+    hyprctl activewindow 2>/dev/null | awk -F: '/^[[:space:]]*class:/ {
+        sub(/^[[:space:]]*/, "", $2)
+        print $2
+        exit
+    }'
+}
+
+is_browser_class() {
+    case "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" in
+        chromium | google-chrome | google-chrome-stable | brave-browser | microsoft-edge | vivaldi-stable)
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+send_shortcut() {
+    hyprctl dispatch sendshortcut "$1,$2,activewindow" >/dev/null
+}
+
+class="$(active_class)"
+
+case "$action" in
+    close)
+        if is_browser_class "$class"; then
+            send_shortcut CTRL W
+        else
+            hyprctl dispatch killactive >/dev/null
+        fi
+        ;;
+    previous-tab)
+        if is_browser_class "$class"; then
+            send_shortcut CTRL PAGE_UP
+        fi
+        ;;
+    focus-location)
+        if is_browser_class "$class"; then
+            send_shortcut CTRL L
+        else
+            omarchy-hyprland-workspace-layout-toggle
+        fi
+        ;;
+    new-tab)
+        if is_browser_class "$class"; then
+            send_shortcut CTRL T
+        else
+            hyprctl dispatch togglefloating >/dev/null
+        fi
+        ;;
+    next-tab)
+        if is_browser_class "$class"; then
+            send_shortcut CTRL PAGE_DOWN
+        fi
+        ;;
+esac
