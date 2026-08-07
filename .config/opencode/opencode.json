@@ -18,6 +18,16 @@
           "name": "Qwen3 30B A3B",
           "context_limit": 65536,
           "output_limit": 16384
+        },
+        "qwen3:8b": {
+          "name": "Qwen3 8B",
+          "context_limit": 8192,
+          "output_limit": 4096
+        },
+        "gemma4:26b": {
+          "name": "Gemma 4 26B",
+          "context_limit": 65536,
+          "output_limit": 16384
         }
       }
     }
