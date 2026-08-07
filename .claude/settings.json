@@ -1,15 +1,15 @@
 {
-  "model": "opus[1m]",
-  "enabledPlugins": {
-    "pyright-lsp@claude-plugins-official": true,
-    "slack@claude-plugins-official": true
-  },
-  "alwaysThinkingEnabled": true,
-  "effortLevel": "medium",
   "permissions": {
     "allow": [
       "mcp__bobbens-bots__read_messages",
       "mcp__bobbens-bots__send_message"
     ]
-  }
+  },
+  "enabledPlugins": {
+    "pyright-lsp@claude-plugins-official": true,
+    "slack@claude-plugins-official": true,
+    "clangd-lsp@claude-plugins-official": true
+  },
+  "alwaysThinkingEnabled": true,
+  "effortLevel": "medium"
 }

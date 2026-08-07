@@ -7,23 +7,216 @@ install_direnv() {
         return
     fi
 
+    pkg_install direnv
+}
+
+install_zsh() {
+    if command -v zsh >/dev/null 2>&1; then
+        return
+    fi
+
+    pkg_install zsh
+}
+
+is_omarchy() {
+    command -v omarchy >/dev/null 2>&1 || [ -d "$HOME/.local/share/omarchy" ]
+}
+
+pkg_install() {
     case "$(uname -s)" in
         Linux)
-            sudo apt-get update
-            sudo apt-get install -y direnv
+            if command -v pacman >/dev/null 2>&1; then
+                sudo pacman -Sy --noconfirm --needed "$@"
+            elif command -v apt-get >/dev/null 2>&1; then
+                sudo apt-get update
+                sudo apt-get install -y "$@"
+            else
+                echo "Unsupported Linux package manager." >&2
+                exit 1
+            fi
             ;;
         Darwin)
             if ! command -v brew >/dev/null 2>&1; then
-                echo "Homebrew is required to install direnv on macOS." >&2
+                echo "Homebrew is required to install packages on macOS." >&2
                 exit 1
             fi
-            brew install direnv
+            brew install "$@"
             ;;
         *)
             echo "Unsupported OS: $(uname -s)" >&2
             exit 1
             ;;
     esac
+}
+
+install_emacs() {
+    if command -v emacs >/dev/null 2>&1; then
+        return
+    fi
+
+    case "$(uname -s)" in
+        Linux)
+            if command -v pacman >/dev/null 2>&1; then
+                if is_omarchy; then
+                    pkg_install emacs-wayland
+                else
+                    pkg_install emacs-nox
+                fi
+            elif command -v apt-get >/dev/null 2>&1; then
+                pkg_install emacs-nox
+            else
+                echo "Unsupported Linux package manager for installing Emacs." >&2
+                exit 1
+            fi
+            ;;
+        Darwin)
+            pkg_install emacs
+            ;;
+        *)
+            echo "Unsupported OS: $(uname -s)" >&2
+            exit 1
+            ;;
+    esac
+}
+
+login_shell() {
+    local shell
+
+    shell="$(getent passwd "$(id -un)" 2>/dev/null | awk -F: '{print $7}' || true)"
+    if [ -n "$shell" ] && [ -x "$shell" ]; then
+        printf '%s\n' "$shell"
+        return
+    fi
+
+    if command -v zsh >/dev/null 2>&1; then
+        command -v zsh
+        return
+    fi
+
+    printf '%s\n' "${SHELL:-/bin/sh}"
+}
+
+configure_omarchy_shell() {
+    local shell
+    local uwsm_default
+    local hyprland_conf
+    local hypr_envs
+    local hypr_bindings
+    local hypr_env_source='source = ~/.config/hypr/envs.conf'
+
+    if ! is_omarchy; then
+        return
+    fi
+
+    shell="$(login_shell)"
+    export SHELL="$shell"
+    uwsm_default="${XDG_CONFIG_HOME:-$HOME/.config}/uwsm/default"
+    hyprland_conf="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.conf"
+    hypr_envs="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/envs.conf"
+    hypr_bindings="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/bindings.conf"
+
+    if [ -f "$uwsm_default" ]; then
+        if grep -Eq '^export SHELL=' "$uwsm_default"; then
+            sed -i "s|^export SHELL=.*|export SHELL=$shell|" "$uwsm_default"
+        else
+            printf '\n# Use the account login shell for terminals launched by Omarchy.\nexport SHELL=%s\n' "$shell" >> "$uwsm_default"
+        fi
+    fi
+
+    mkdir -p "$(dirname "$hypr_envs")"
+    if [ -f "$hypr_envs" ] && grep -Eq '^env = SHELL,' "$hypr_envs"; then
+        sed -i "s|^env = SHELL,.*|env = SHELL,$shell|" "$hypr_envs"
+    else
+        printf '\n# Use the account login shell for terminals launched by Hyprland.\nenv = SHELL,%s\n' "$shell" >> "$hypr_envs"
+    fi
+
+    if [ -f "$hyprland_conf" ] && ! grep -Fxq "$hypr_env_source" "$hyprland_conf"; then
+        if grep -Fxq 'source = ~/.local/share/omarchy/default/hypr/envs.conf' "$hyprland_conf"; then
+            sed -i '/^source = ~\/.local\/share\/omarchy\/default\/hypr\/envs.conf$/a source = ~/.config/hypr/envs.conf' "$hyprland_conf"
+        else
+            printf '\n%s\n' "$hypr_env_source" >> "$hyprland_conf"
+        fi
+    fi
+
+    if [ -f "$hypr_bindings" ]; then
+        sed -i "s#bash -c \"tmux attach || tmux new -s Work\"#$shell -lc \"tmux attach || tmux new -s Work\"#" "$hypr_bindings"
+    fi
+
+    if command -v hyprctl >/dev/null 2>&1; then
+        hyprctl keyword env "SHELL,$shell" >/dev/null 2>&1 || true
+        hyprctl reload >/dev/null 2>&1 || true
+    fi
+
+    if command -v systemctl >/dev/null 2>&1; then
+        systemctl --user import-environment SHELL >/dev/null 2>&1 || true
+        systemctl --user restart wayland-wm-app-daemon.service >/dev/null 2>&1 || true
+    fi
+
+    if command -v dbus-update-activation-environment >/dev/null 2>&1; then
+        dbus-update-activation-environment --systemd SHELL >/dev/null 2>&1 || true
+    fi
+}
+
+configure_omarchy_macos_shortcuts() {
+    local hypr_bindings
+    local begin_marker='# BEGIN dotfiles macOS-style browser shortcuts'
+    local end_marker='# END dotfiles macOS-style browser shortcuts'
+
+    if ! is_omarchy; then
+        return
+    fi
+
+    hypr_bindings="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/bindings.conf"
+
+    if [ ! -f "$hypr_bindings" ]; then
+        return
+    fi
+
+    if grep -Fxq "$begin_marker" "$hypr_bindings"; then
+        sed -i "/^$begin_marker$/,/^$end_marker$/d" "$hypr_bindings"
+    fi
+
+    cat >> "$hypr_bindings" <<'EOF'
+
+# BEGIN dotfiles macOS-style browser shortcuts
+unbind = SUPER, W
+unbind = SUPER, T
+unbind = SUPER, L
+unbind = SUPER SHIFT, bracketleft
+unbind = SUPER SHIFT, bracketright
+unbind = SUPER, braceleft
+unbind = SUPER, braceright
+bindd = SUPER, W, Close tab/window, exec, omarchy-macos-browser-shortcut close
+bindd = SUPER, T, New tab/toggle floating, exec, omarchy-macos-browser-shortcut new-tab
+bindd = SUPER, L, Focus location/layout, exec, omarchy-macos-browser-shortcut focus-location
+bindd = SUPER SHIFT, bracketleft, Previous browser tab, exec, omarchy-macos-browser-shortcut previous-tab
+bindd = SUPER SHIFT, bracketright, Next browser tab, exec, omarchy-macos-browser-shortcut next-tab
+bindd = SUPER, braceleft, Previous browser tab, exec, omarchy-macos-browser-shortcut previous-tab
+bindd = SUPER, braceright, Next browser tab, exec, omarchy-macos-browser-shortcut next-tab
+# END dotfiles macOS-style browser shortcuts
+EOF
+
+    if command -v hyprctl >/dev/null 2>&1; then
+        hyprctl reload >/dev/null 2>&1 || true
+    fi
+}
+
+configure_git_ssh_signing_verification() {
+    local signing_key
+    local email
+
+    signing_key="$(git config --global --get user.signingkey || true)"
+    email="$(git config --global --get user.email || true)"
+
+    signing_key="${signing_key/#\~/$HOME}"
+
+    if [ -z "$email" ] || [ -z "$signing_key" ] || [ ! -r "$signing_key" ]; then
+        return
+    fi
+
+    mkdir -p "$HOME/.ssh"
+    printf '%s %s\n' "$email" "$(cat "$signing_key")" > "$HOME/.ssh/allowed_signers"
+    chmod 600 "$HOME/.ssh/allowed_signers"
 }
 
 install_tpm() {
@@ -34,6 +227,34 @@ install_tpm() {
     git clone https://github.com/tmux-plugins/tpm "$HOME/.tmux/plugins/tpm"
 }
 
+ensure_tmux_xdg_sources_user_config() {
+    local xdg_tmux_conf="${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
+    local source_line='source-file ~/.tmux.conf'
+
+    if [ ! -f "$HOME/.tmux.conf" ]; then
+        return
+    fi
+
+    mkdir -p "$(dirname "$xdg_tmux_conf")"
+    touch "$xdg_tmux_conf"
+
+    if is_omarchy; then
+        sed -i \
+            -e '/^# Prefix$/,/^# General$/ { /^# General$/!d; }' \
+            -e '/^setw -g mode-keys /d' \
+            -e '/^bind -T copy-mode-vi /d' \
+            "$xdg_tmux_conf"
+
+        if ! grep -Fxq 'setw -g mode-keys emacs' "$xdg_tmux_conf"; then
+            sed -i '/^# General$/i setw -g mode-keys emacs' "$xdg_tmux_conf"
+        fi
+    fi
+
+    if ! grep -Fxq "$source_line" "$xdg_tmux_conf"; then
+        printf '\n%s\n' "$source_line" >> "$xdg_tmux_conf"
+    fi
+}
+
 install_tmux_plugins() {
     "$HOME/.tmux/plugins/tpm/bin/install_plugins"
 }
@@ -41,11 +262,22 @@ install_tmux_plugins() {
 enable_emacs_daemon() {
     case "$(uname -s)" in
         Linux)
-            sudo install -Dm644 \
-                "$HOME/dev-vm-setup/systemd/emacs.service" \
-                /etc/systemd/system/emacs.service
-            sudo systemctl daemon-reload
-            sudo systemctl enable --now emacs.service
+            mkdir -p "$HOME/.config/systemd/user"
+            cat > "$HOME/.config/systemd/user/emacs.service" <<'EOF'
+[Unit]
+Description=Emacs daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/emacs --fg-daemon
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+EOF
+            systemctl --user daemon-reload
+            systemctl --user enable --now emacs.service
             ;;
         Darwin)
             launchctl bootout "gui/$(id -u)" "$HOME/Library/LaunchAgents/com.jacobhak.emacs-daemon.plist" >/dev/null 2>&1 || true
@@ -60,6 +292,12 @@ enable_emacs_daemon() {
 }
 
 install_direnv
+install_zsh
+install_emacs
+configure_omarchy_shell
+configure_omarchy_macos_shortcuts
+configure_git_ssh_signing_verification
 install_tpm
+ensure_tmux_xdg_sources_user_config
 install_tmux_plugins
 enable_emacs_daemon
