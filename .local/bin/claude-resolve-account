@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Prints the CLAUDE_CONFIG_DIR to use for the "private" Claude Code identity,
+# or nothing if the default (work) identity applies.
+#
+# Usage: claude-resolve-account [cwd]   (defaults to $PWD)
+#
+# Resolution order:
+#   1. ~/code/private (or any subdirectory of it) -> private
+#   2. current tmux session is named "private"    -> private
+#   3. otherwise -> default (work), nothing printed
+
+set -euo pipefail
+
+cwd="${1:-$PWD}"
+
+case "$cwd" in
+    "$HOME/code/private"|"$HOME/code/private"/*)
+        echo "$HOME/.claude-private"
+        exit 0
+        ;;
+esac
+
+if [ -n "${TMUX:-}" ]; then
+    session=$(tmux display-message -p '#S' 2>/dev/null || true)
+    if [ "$session" = "private" ]; then
+        echo "$HOME/.claude-private"
+        exit 0
+    fi
+fi

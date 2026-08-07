@@ -8,6 +8,11 @@ LOCKFILE="$SAVEFILE.lock"
 RESULT_FILE=$(mktemp)
 CWD=$(pwd)
 
+ACCOUNT_DIR=$(claude-resolve-account "$CWD")
+if [ -n "$ACCOUNT_DIR" ]; then
+    export CLAUDE_CONFIG_DIR="$ACCOUNT_DIR"
+fi
+
 if [ ! -f "$SAVEFILE" ]; then
     exec claude --continue
 fi

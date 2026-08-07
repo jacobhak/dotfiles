@@ -56,4 +56,5 @@
 !/.local/bin/bootstrap-workflow
 !/.local/bin/save-claude-sessions.sh
 !/.local/bin/claude-restore.sh
+!/.local/bin/claude-resolve-account
 !/.local/bin/tmux-osc52-copy

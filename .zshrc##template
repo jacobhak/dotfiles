@@ -73,6 +73,22 @@ alias tp='tmux-picker'
 alias prepare-reboot='save-claude-sessions.sh && tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/save.sh && echo "✓ Ready to reboot"'
 unalias e 2>/dev/null
 
+# Use the private Claude account under ~/code/private or the "private" tmux
+# session; work (~/.claude, the default) everywhere else. See claude-resolve-account.
+claude() {
+    if [ -n "${CLAUDE_CONFIG_DIR:-}" ]; then
+        command claude "$@"
+        return
+    fi
+    local account_dir
+    account_dir=$(claude-resolve-account)
+    if [ -n "$account_dir" ]; then
+        CLAUDE_CONFIG_DIR="$account_dir" command claude "$@"
+    else
+        command claude "$@"
+    fi
+}
+
 e() {
     if [[ "$OSTYPE" == darwin* ]] && [ -z "${SSH_CONNECTION:-}" ]; then
         emacsclient -n -c "$@"

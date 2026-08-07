@@ -2,7 +2,8 @@
 # Save Claude session IDs per tmux pane before shutdown/reboot.
 # Output: ~/.claude-pane-sessions, one line per pane: "<cwd> <session-id>"
 # Multiple panes in the same dir are saved in order, consumed in order on restore.
-# Uses ~/.claude/sessions/<pid>.json written by Claude Code for each running session.
+# Uses <config-dir>/sessions/<pid>.json written by Claude Code for each running
+# session, across every Claude account config dir (~/.claude, ~/.claude-private, ...).
 
 set -eo pipefail
 
@@ -11,18 +12,20 @@ SAVEFILE="$HOME/.claude-pane-sessions"
 
 tmux list-sessions > /dev/null 2>&1 || { echo "tmux not running, nothing to save"; exit 0; }
 
-# --- Build pid -> session-id map from ~/.claude/sessions/<pid>.json ---
+# --- Build pid -> session-id map from */sessions/<pid>.json across all account dirs ---
 declare -A pid_to_session
 
-for session_file in "$HOME/.claude/sessions/"*.json; do
-    [ -f "$session_file" ] || continue
-    pid=$(basename "$session_file" .json)
-    session_id=$(python3 -c "
+for config_dir in "$HOME/.claude" "$HOME/.claude-private"; do
+    for session_file in "$config_dir/sessions/"*.json; do
+        [ -f "$session_file" ] || continue
+        pid=$(basename "$session_file" .json)
+        session_id=$(python3 -c "
 import json, sys
 with open('$session_file') as f:
     print(json.load(f)['sessionId'])
 " 2>/dev/null) || continue
-    pid_to_session["$pid"]="$session_id"
+        pid_to_session["$pid"]="$session_id"
+    done
 done
 
 if [ ${#pid_to_session[@]} -eq 0 ]; then
