@@ -89,3 +89,17 @@ bindd = SUPER SHIFT, TAB, Reveal active window on top, bringactivetotop
 bindd = ALT, TAB, Next workspace, workspace, e+1
 bindd = ALT SHIFT, TAB, Previous workspace, workspace, e-1
 # END dotfiles tab-navigation swap
+
+# BEGIN dotfiles macOS-style emacs text navigation
+# Terminals/Emacs already support these natively; elsewhere they're translated
+# to the non-emacs equivalent (End/Home/word-delete etc) - see
+# omarchy-emacs-nav-shortcut. Note: this takes over Ctrl+W everywhere,
+# including browsers, where it now deletes a word instead of closing the tab
+# (use SUPER+W for that).
+bindd = CTRL, E, End of line, exec, omarchy-emacs-nav-shortcut end-of-line
+bindd = CTRL, A, Beginning of line, exec, omarchy-emacs-nav-shortcut beginning-of-line
+bindd = CTRL, K, Kill to end of line, exec, omarchy-emacs-nav-shortcut kill-line
+bindd = ALT, B, Word back, exec, omarchy-emacs-nav-shortcut backward-word
+bindd = ALT, F, Word forward, exec, omarchy-emacs-nav-shortcut forward-word
+bindd = CTRL, W, Delete word back, exec, omarchy-emacs-nav-shortcut backward-kill-word
+# END dotfiles macOS-style emacs text navigation

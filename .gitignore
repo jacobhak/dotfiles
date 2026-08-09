@@ -62,3 +62,4 @@
 !/.local/bin/claude-restore.sh
 !/.local/bin/claude-resolve-account
 !/.local/bin/tmux-osc52-copy
+!/.local/bin/omarchy-emacs-nav-shortcut##class.omarchy
