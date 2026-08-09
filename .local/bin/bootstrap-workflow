@@ -182,6 +182,7 @@ configure_omarchy_macos_shortcuts() {
 unbind = SUPER, W
 unbind = SUPER, T
 unbind = SUPER, L
+unbind = SUPER, R
 unbind = SUPER SHIFT, bracketleft
 unbind = SUPER SHIFT, bracketright
 unbind = SUPER, braceleft
@@ -189,6 +190,7 @@ unbind = SUPER, braceright
 bindd = SUPER, W, Close tab/window, exec, omarchy-macos-browser-shortcut close
 bindd = SUPER, T, New tab/toggle floating, exec, omarchy-macos-browser-shortcut new-tab
 bindd = SUPER, L, Focus location/layout, exec, omarchy-macos-browser-shortcut focus-location
+bindd = SUPER, R, Reload browser tab, exec, omarchy-macos-browser-shortcut reload
 bindd = SUPER SHIFT, bracketleft, Previous browser tab, exec, omarchy-macos-browser-shortcut previous-tab
 bindd = SUPER SHIFT, bracketright, Next browser tab, exec, omarchy-macos-browser-shortcut next-tab
 bindd = SUPER, braceleft, Previous browser tab, exec, omarchy-macos-browser-shortcut previous-tab

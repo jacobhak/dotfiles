@@ -5,9 +5,9 @@ set -euo pipefail
 action="${1:-}"
 
 case "$action" in
-    close | focus-location | new-tab | previous-tab | next-tab) ;;
+    close | focus-location | new-tab | previous-tab | next-tab | reload) ;;
     *)
-        echo "Usage: ${0##*/} close|focus-location|new-tab|previous-tab|next-tab" >&2
+        echo "Usage: ${0##*/} close|focus-location|new-tab|previous-tab|next-tab|reload" >&2
         exit 2
         ;;
 esac
@@ -76,6 +76,11 @@ case "$action" in
     next-tab)
         if is_browser_class "$class"; then
             send_shortcut CTRL PAGE_DOWN
+        fi
+        ;;
+    reload)
+        if is_browser_class "$class"; then
+            send_shortcut CTRL R
         fi
         ;;
 esac
