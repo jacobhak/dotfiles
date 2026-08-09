@@ -1,0 +1,53 @@
+#!/bin/bash
+# Adjust screen brightness on the MacBookPro16,1 T2 laptop.
+#
+# omarchy-brightness-display picks the wrong /sys/class/backlight device here:
+# it only special-cases amdgpu_bl*/intel_backlight/acpi_video*, so it falls
+# back to the alphabetically-first backlight device. On this machine that's
+# appletb_backlight (the Touch Bar, max_brightness=2), not gmux_backlight
+# (the actual screen) - so the stock brightness keys were dimming the Touch
+# Bar instead of the display.
+
+set -euo pipefail
+
+step="${1:-+5%}"
+device=gmux_backlight
+
+if [[ ! -e /sys/class/backlight/$device ]]; then
+  echo "Expected backlight device $device not found - wrong machine?" >&2
+  exit 1
+fi
+
+if [[ $step == "off" ]]; then
+  hyprctl dispatch dpms off >/dev/null 2>&1
+  exit 0
+elif [[ $step == "on" ]]; then
+  hyprctl dispatch dpms on >/dev/null 2>&1
+  exit 0
+fi
+
+current=$(brightnessctl -d "$device" -m | cut -d',' -f4 | tr -d '%')
+
+# Non-uniform step size: 1% steps at or below 5%, otherwise an absolute
+# target percentage (avoids raw backlight rounding causing uneven OSD steps).
+if [[ $step == "+5%" ]]; then
+  if (( current < 5 )); then
+    (( target = current + 1 ))
+  else
+    (( target = current + 5 ))
+  fi
+  (( target > 100 )) && target=100
+  step="$target%"
+elif [[ $step == "5%-" ]]; then
+  if (( current <= 5 )); then
+    (( target = current - 1 ))
+  else
+    (( target = current - 5 ))
+  fi
+  (( target < 1 )) && target=1
+  step="$target%"
+fi
+
+brightnessctl -d "$device" set "$step" >/dev/null
+
+omarchy-swayosd-brightness "$(brightnessctl -d "$device" -m | cut -d',' -f4 | tr -d '%')"
