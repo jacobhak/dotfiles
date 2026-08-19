@@ -760,7 +760,9 @@
 (defun osc52-copy (string)
   "Copy STRING to the system clipboard via OSC 52."
   (let* ((b64 (base64-encode-string (encode-coding-string string 'binary) t))
-         (tty (string-trim (shell-command-to-string "tmux display-message -p '#{pane_tty}'")))
+         (tty (string-trim (shell-command-to-string
+                             (format "tmux display-message -p -t '%s' '#{client_tty}'"
+                                     (or (getenv "TMUX_PANE") "")))))
          (seq (if (getenv "TMUX")
                   (format "\ePtmux;\e\e]52;c;%s\e\e\\\e\\" b64)
                 (format "\e]52;c;%s\a" b64))))
