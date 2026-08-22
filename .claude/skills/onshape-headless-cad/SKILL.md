@@ -50,6 +50,41 @@ it produced.
   don't trust an in-context mental model of the tree once more than a few
   edits have happened; pull ground truth.
 
+## Never guess a real-world dimension
+
+Every dimension that describes a physical part the agent doesn't have in
+hand — a bought component's outline, a mounting-hole position, a connector's
+keep-out, a display's viewable area — is a fact, not a design choice. Get it
+from an authoritative source before it goes into a named constant:
+
+- The user's own direct measurement (calipers on the physical part) beats
+  everything else, including the part's own web listing — generic/marketing
+  copy and independent search results for "the same" component regularly
+  disagree with each other and with the actual unit on the bench.
+- A manufacturer datasheet or dimensioned drawing is the next best source.
+  Confirm it's for the *exact* SKU in hand, not a same-looking part from a
+  different vendor — clone modules sold under one nominal spec (e.g. "0.96in
+  SSD1306 OLED") vary in PCB outline, glass size, and mounting-hole layout
+  between sellers.
+- If neither is available in the conversation or the repo, **stop and ask
+  the user for a measurement or a link to the exact product/datasheet**
+  rather than filling the gap with a plausible-sounding number, a value
+  scraped from a similar-but-not-confirmed-identical part, or an inference
+  from an unrelated file in the repo. This applies even under time pressure
+  or mid-task momentum — a wrong physical dimension fails silently (the
+  model looks fine, renders fine, passes every check) and only surfaces once
+  printed.
+- Web search / fetch results are a starting point for *finding* a source
+  (a datasheet PDF, a product page), never a substitute for reading the
+  actual number off it and citing where it came from. If a search summary
+  and a user measurement disagree, the measurement wins — say so explicitly
+  rather than quietly picking one.
+- This is different from *design* choices the agent can make and state
+  plainly (wall thickness, air gaps, chamfer size, derived-constant
+  refactors) — those are fair game to decide and explain. The line is
+  whether the number describes something that already physically exists
+  outside the model.
+
 ## Verification discipline: render it, don't just measure it
 
 Mass properties (volume) and bounding boxes only catch "did roughly the
