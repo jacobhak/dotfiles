@@ -112,9 +112,9 @@ omp() {
     local profile
     profile=$(omp-resolve-profile)
     if [ -n "$profile" ]; then
-        env -u PI_PROFILE -u PI_CODING_AGENT_DIR OMP_PROFILE="$profile" omp "$@"
+        env -u PI_PROFILE -u PI_CODING_AGENT_DIR OMP_PROFILE="$profile" omp --allow-home "$@"
     else
-        env -u OMP_PROFILE -u PI_PROFILE -u PI_CODING_AGENT_DIR omp "$@"
+        env -u OMP_PROFILE -u PI_PROFILE -u PI_CODING_AGENT_DIR omp --allow-home "$@"
     fi
 }
 
