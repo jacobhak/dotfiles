@@ -42,6 +42,11 @@
 !/.omp/profiles/private/agent
 !/.omp/profiles/private/agent/config.yml
 
+# OMP-native skills
+!/.agents
+!/.agents/skills
+!/.agents/skills/**
+
 # dbt
 !/.dbt
 !/.dbt/profiles.yml##template
