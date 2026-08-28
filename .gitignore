@@ -36,12 +36,11 @@
 !/.omp
 !/.omp/agent
 !/.omp/agent/config.yml
-!/.omp/agent/mcp.json
+!/.omp/agent/keybindings.yml
 !/.omp/profiles
 !/.omp/profiles/private
 !/.omp/profiles/private/agent
 !/.omp/profiles/private/agent/config.yml
-!/.omp/profiles/private/agent/keybindings.yml
 
 # OMP-native skills
 !/.agents
