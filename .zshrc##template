@@ -106,6 +106,18 @@ claude() {
     fi
 }
 
+# Select the private OMP profile under ~/code/private or in the "private"
+# tmux session; otherwise use the unprofiled work configuration.
+omp() {
+    local profile
+    profile=$(omp-resolve-profile)
+    if [ -n "$profile" ]; then
+        env -u PI_PROFILE -u PI_CODING_AGENT_DIR OMP_PROFILE="$profile" omp "$@"
+    else
+        env -u OMP_PROFILE -u PI_PROFILE -u PI_CODING_AGENT_DIR omp "$@"
+    fi
+}
+
 e() {
     if [[ "$OSTYPE" == darwin* ]] && [ -z "${SSH_CONNECTION:-}" ]; then
         emacsclient -n -c "$@"

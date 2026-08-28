@@ -32,6 +32,16 @@
 /.claude/skills/omarchy
 /.claude/skills/omarchy/**
 
+# Oh My Pi
+!/.omp
+!/.omp/agent
+!/.omp/agent/config.yml
+!/.omp/agent/mcp.json
+!/.omp/profiles
+!/.omp/profiles/private
+!/.omp/profiles/private/agent
+!/.omp/profiles/private/agent/config.yml
+
 # dbt
 !/.dbt
 !/.dbt/profiles.yml##template
@@ -61,5 +71,6 @@
 !/.local/bin/save-claude-sessions.sh
 !/.local/bin/claude-restore.sh
 !/.local/bin/claude-resolve-account
+!/.local/bin/omp-resolve-profile
 !/.local/bin/tmux-osc52-copy
 !/.local/bin/omarchy-emacs-nav-shortcut##class.omarchy

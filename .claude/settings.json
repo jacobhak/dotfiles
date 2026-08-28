@@ -11,5 +11,8 @@
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "medium",
-  "theme": "dark"
+  "theme": "dark",
+  "env": {
+    "API_FORCE_IDLE_TIMEOUT": "1"
+  }
 }
