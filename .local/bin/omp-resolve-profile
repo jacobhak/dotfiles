@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
-# Prints the OMP profile to use for the private identity, or nothing when the
-# default (work) profile applies.
+# Prints the OMP profile selected by the current context, or nothing when the
+# default profile applies.
 #
 # Usage: omp-resolve-profile [cwd]   (defaults to $PWD)
 #
 # Resolution order:
 #   1. ~/code/private (or any subdirectory) -> private
-#   2. current tmux session is named "private" -> private
-#   3. otherwise -> default (work), nothing printed
+#   2. ~/code/voi (or any subdirectory) -> work
+#   3. current tmux session is named "private" -> private
+#   4. current tmux session is named "work" -> work
+#   5. otherwise -> default, nothing printed
 
 set -euo pipefail
 
@@ -18,11 +20,17 @@ case "$cwd" in
         echo private
         exit 0
         ;;
+    "$HOME/code/voi"|"$HOME/code/voi"/*)
+        echo work
+        exit 0
+        ;;
 esac
 
 if [ -n "${TMUX:-}" ]; then
     session=$(tmux display-message -p '#S' 2>/dev/null || true)
-    if [ "$session" = "private" ]; then
-        echo private
-    fi
+    case "$session" in
+        private|work)
+            echo "$session"
+            ;;
+    esac
 fi

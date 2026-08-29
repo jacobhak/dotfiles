@@ -1,0 +1,25 @@
+modelRoles:
+  default: openai-codex/gpt-5.6-terra:high
+  smol: openai-codex/gpt-5.6-luna
+  commit: openai-codex/gpt-5.6-luna
+symbolPreset: unicode
+composer:
+  shape: pi
+theme:
+  dark: dark-slate
+  light: light
+setupVersion: 2
+dev:
+  autoqaConsent: denied
+memory:
+  backend: mnemopi
+mnemopi:
+  scoping: per-project-tagged
+browser:
+  relay: true
+codexResets:
+  autoRedeem: "no"
+retry:
+  fallbackChains:
+    openai-codex/gpt-5.6-luna:
+      - anthropic/claude-haiku-4-5
