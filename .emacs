@@ -772,6 +772,7 @@
   "Interprogram cut function using OSC 52."
   (osc52-copy string))
 
-(setq interprogram-cut-function #'osc52-interprogram-cut)
+(unless (display-graphic-p)
+  (setq interprogram-cut-function #'osc52-interprogram-cut))
 
 ;;; .emacs ends here
