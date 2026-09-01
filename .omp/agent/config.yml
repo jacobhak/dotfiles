@@ -3,3 +3,5 @@ modelRoles:
   default: openai-codex/gpt-5.6-terra:high
 composer:
   shape: pi
+terminal:
+  showImages: false

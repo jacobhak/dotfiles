@@ -1,12 +1,12 @@
 modelRoles:
-  default: anthropic/claude-sonnet-5:high
+  default: openai-codex/gpt-5.6-terra:high
   smol: openai-codex/gpt-5.6-luna
   commit: openai-codex/gpt-5.6-luna
 symbolPreset: unicode
 composer:
   shape: pi
 theme:
-  dark: dark-solarized
+  dark: dark-tokyo-night
   light: light
 setupVersion: 2
 dev:
@@ -23,3 +23,5 @@ retry:
   fallbackChains:
     openai-codex/gpt-5.6-luna:
       - anthropic/claude-haiku-4-5
+terminal:
+  showImages: false
