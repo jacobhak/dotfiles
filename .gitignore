@@ -41,6 +41,7 @@
 !/.omp/profiles/private
 !/.omp/profiles/private/agent
 !/.omp/profiles/private/agent/config.yml
+!/.omp/profiles/private/agent/mcp.json
 
 # OMP-native skills
 !/.agents
