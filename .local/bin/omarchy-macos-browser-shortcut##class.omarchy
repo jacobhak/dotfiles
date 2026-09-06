@@ -40,8 +40,11 @@ is_browser_class() {
     esac
 }
 
+# Hyprland 0.56+ parses `hyprctl dispatch <text>` as the Lua expression
+# `hl.dispatch(<text>)` rather than the old comma-separated dispatcher
+# syntax, so every dispatch call here must build a real hl.dsp.* call.
 send_shortcut() {
-    hyprctl dispatch sendshortcut "$1,$2,activewindow" >/dev/null
+    hyprctl dispatch "hl.dsp.send_shortcut({ mods = \"$1\", key = \"$2\" })" >/dev/null
 }
 
 class="$(active_class)"
@@ -51,7 +54,7 @@ case "$action" in
         if is_browser_class "$class"; then
             send_shortcut CTRL W
         else
-            hyprctl dispatch killactive >/dev/null
+            hyprctl dispatch 'hl.dsp.window.close()' >/dev/null
         fi
         ;;
     previous-tab)
@@ -70,7 +73,7 @@ case "$action" in
         if is_browser_class "$class"; then
             send_shortcut CTRL T
         else
-            hyprctl dispatch togglefloating >/dev/null
+            hyprctl dispatch 'hl.dsp.window.float({ action = "toggle" })' >/dev/null
         fi
         ;;
     next-tab)

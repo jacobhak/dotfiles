@@ -42,8 +42,11 @@ has_native_bindings() {
     esac
 }
 
+# Hyprland 0.56+ parses `hyprctl dispatch <text>` as the Lua expression
+# `hl.dispatch(<text>)` rather than the old comma-separated dispatcher
+# syntax, so this must build a real hl.dsp.send_shortcut() call.
 send_shortcut() {
-    hyprctl dispatch sendshortcut "$1,$2,activewindow" >/dev/null
+    hyprctl dispatch "hl.dsp.send_shortcut({ mods = \"$1\", key = \"$2\" })" >/dev/null
 }
 
 class="$(active_class)"
