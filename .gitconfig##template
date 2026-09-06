@@ -6,11 +6,7 @@
     allowedSignersFile = ~/.ssh/allowed_signers
 [user]
     name = Jacob Hakansson
-{% if yadm.class == "omarchy" %}
-    signingkey = ~/.ssh/id_ed25519_github.pub
-{% else %}
     signingkey = ~/.ssh/id_ed25519.pub
-{% endif %}
     email = jacobhakansson@gmail.com
 [commit]
     gpgsign = true
