@@ -15,6 +15,7 @@ memory:
   backend: mnemopi
 mnemopi:
   scoping: per-project-tagged
+  noEmbeddings: true
 browser:
   relay: true
 codexResets:

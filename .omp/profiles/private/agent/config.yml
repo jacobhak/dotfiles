@@ -1,5 +1,5 @@
 modelRoles:
-  default: openai-codex/gpt-5.6-terra:high
+  default: anthropic/claude-sonnet-5:high
   smol: openai-codex/gpt-5.6-luna
   commit: openai-codex/gpt-5.6-luna
 symbolPreset: unicode
@@ -15,6 +15,7 @@ memory:
   backend: mnemopi
 mnemopi:
   scoping: per-project-tagged
+  noEmbeddings: true
 browser:
   relay: true
 codexResets:
