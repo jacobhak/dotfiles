@@ -14,5 +14,6 @@
   "theme": "dark",
   "env": {
     "API_FORCE_IDLE_TIMEOUT": "1"
-  }
+  },
+  "tui": "fullscreen"
 }
