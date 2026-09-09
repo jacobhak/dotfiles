@@ -18,3 +18,16 @@ applies, stop and ask rather than editing directly.
   idempotent script under `scripts/` plus any config it installs under `config/`. Check
   that repo's README before making system-level changes on any machine, and add to it
   rather than leaving ad-hoc changes untracked or in one-off directories.
+
+# Concurrent agent work in git repos
+
+More than one agent session (this one plus others, in Claude Code or elsewhere) may be
+working in the same repo's primary checkout at the same time. A `git stash`/commit from
+one session can transiently wipe or reorder another session's uncommitted edits in a
+shared working tree — recoverable via `git stash list`/reflog, but disruptive and worth
+avoiding rather than debugging after the fact. Default to starting non-trivial or
+multi-step work (anything beyond a quick one-file edit) in an isolated git worktree
+rather than the primary checkout — use the `EnterWorktree`/`ExitWorktree` tools where
+available, or plain `git worktree add` otherwise — so concurrent sessions don't share a
+working tree at all. If already mid-task in the primary checkout when this becomes
+relevant, it's fine to keep going rather than switch mid-stream, but say so.
