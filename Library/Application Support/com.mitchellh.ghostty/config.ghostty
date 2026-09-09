@@ -1,2 +1,3 @@
 cursor-style = block
-shell-integration-features = no-cursor
+shell-integration-features = no-cursor,ssh-terminfo
+theme = Apple System Colors
