@@ -70,6 +70,11 @@
 !/Library/KeyBindings*
 !/Library/KeyBindings/DefaultKeyBinding.dict
 
+# Ghostty
+!/Library/Application\ Support*
+!/Library/Application\ Support/com.mitchellh.ghostty*
+!/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty
+
 # local scripts
 !/.local
 !/.local/bin
