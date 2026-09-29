@@ -70,7 +70,12 @@ fi
 if [ -z "${XDG_RUNTIME_DIR:-}" ] && [ -d "/run/user/$(id -u)" ]; then
     export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 fi
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+# Only export when the runtime dir actually exists — exporting with an empty
+# $XDG_RUNTIME_DIR produces the bogus path /ssh-agent.socket, which then
+# shadows a valid value inherited from tmux.
+if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi
 if [ -S "$SSH_AUTH_SOCK" ]; then
     if [ -f ~/.ssh/id_ed25519_github ]; then
         SSH_KEY="$HOME/.ssh/id_ed25519_github"
