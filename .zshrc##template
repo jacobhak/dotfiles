@@ -143,6 +143,16 @@ e() {
 # Source local secrets/overrides (not tracked by yadm)
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
+# Snowflake key passphrase: macOS keeps it in the login Keychain, Linux pulls
+# it from the user manager (TPM2-sealed systemd credential — see
+# dev-vm-setup/scripts/setup-snowflake-credential.sh). Store once on macOS:
+#   security add-generic-password -s snowflake-key-passphrase -a "$USER" -w
+{% if yadm.os == "Darwin" %}
+if [ -z "${SNOWFLAKE_KEY_PASSPHRASE:-}" ] && command -v security >/dev/null 2>&1; then
+  export SNOWFLAKE_KEY_PASSPHRASE="$(security find-generic-password -s snowflake-key-passphrase -a "$USER" -w 2>/dev/null)"
+fi
+{% endif %}
+
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
 

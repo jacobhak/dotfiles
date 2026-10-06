@@ -32,9 +32,9 @@
         "--role",
         "DEVELOPER",
         "--private-key-file",
-        "/home/jacob/.ssh/rsa_key.p8",
+        "/home/jacob_hakansson_voiapp_io/.ssh/rsa_key.p8",
         "--service-config-file",
-        "/home/jacob/snowflake_mcp_config.yaml",
+        "/home/jacob_hakansson_voiapp_io/snowflake_mcp_config.yaml",
         "--private-key-file-pwd",
         "${SNOWFLAKE_KEY_PASSPHRASE}"
       ]

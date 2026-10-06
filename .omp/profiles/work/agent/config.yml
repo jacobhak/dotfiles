@@ -1,7 +1,10 @@
 modelRoles:
-  default: anthropic/claude-sonnet-5:high
-  smol: openai-codex/gpt-5.6-luna
-  commit: openai-codex/gpt-5.6-luna
+  default: baseten/zai-org/GLM-5.3-Flash:high
+  smol: baseten/zai-org/GLM-5.3-Flash:low
+  commit: baseten/zai-org/GLM-5.3-Flash:low
+  slow: anthropic/claude-opus-5-5:high
+  plan: anthropic/claude-opus-5-5:high
+  task: baseten/zai-org/GLM-5.3-Flash:high
 symbolPreset: unicode
 composer:
   shape: pi
