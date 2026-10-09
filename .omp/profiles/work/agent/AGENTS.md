@@ -1,3 +1,5 @@
+@~/.omp/agent/global-instructions.md
+
 # Work profile instructions
 
 ## Production changes
