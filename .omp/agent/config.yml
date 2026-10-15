@@ -1,6 +1,6 @@
 setupVersion: 2
 modelRoles:
-  default: openai-codex/gpt-5.6-terra:high
+  default: baseten/zai-org/GLM-5.3-Flash
 composer:
   shape: pi
 terminal:

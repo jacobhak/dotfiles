@@ -1,4 +1,7 @@
 {
+  "env": {
+    "API_FORCE_IDLE_TIMEOUT": "1"
+  },
   "permissions": {
     "allow": [
       "mcp__bobbens-bots__read_messages",
@@ -11,9 +14,7 @@
   },
   "alwaysThinkingEnabled": true,
   "effortLevel": "medium",
+  "tui": "fullscreen",
   "theme": "dark",
-  "env": {
-    "API_FORCE_IDLE_TIMEOUT": "1"
-  },
-  "tui": "fullscreen"
+  "model": "opus[1m]"
 }
