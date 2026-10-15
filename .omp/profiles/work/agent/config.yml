@@ -29,3 +29,8 @@ retry:
       - anthropic/claude-haiku-4-5
 terminal:
   showImages: false
+display:
+  shimmer: disabled
+tui:
+  titleState: false
+  titleSpinner: dots
