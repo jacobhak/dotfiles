@@ -112,6 +112,8 @@ alias dbdr='devbox ssh --tmux=work --detach --cwd=code/voi/goldeneye/goldeneye-d
 alias dbp='devbox ssh --tmux=work --detach --cwd=code/voi/data-pipelines --window=data-pipelines -- omp --profile work'
 alias dbv='devbox ssh --tmux=work --detach --cwd=code/voi --window=voi -- omp --profile work'
 alias dbh='devbox ssh --tmux=work --detach --window=home -- omp --profile work --allow-home'
+# Suspend, not stop: the tmux session and its agents survive a resume.
+alias dbs='devbox suspend'
 {% endif %}
 
 # Use the private Claude account under ~/code/private or the "private" tmux
