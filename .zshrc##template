@@ -102,6 +102,18 @@ alias tp='tmux-picker'
 alias prepare-reboot='save-claude-sessions.sh && tmux run-shell ~/.tmux/plugins/tmux-resurrect/scripts/save.sh && echo "✓ Ready to reboot"'
 unalias e 2>/dev/null
 
+{% if yadm.os == "Darwin" %}
+# Devbox: attach to tmux session "work", or start an omp session in a
+# background window of it. Without --cwd the window starts in ~, where omp
+# needs --allow-home.
+alias dbw='devbox ssh --tmux=work'
+alias dbg='devbox ssh --tmux=work --detach --cwd=code/voi/goldeneye --window=goldeneye -- omp --profile work'
+alias dbdr='devbox ssh --tmux=work --detach --cwd=code/voi/goldeneye/goldeneye-data-refinement --window=goldeneye-data-refinement -- omp --profile work'
+alias dbp='devbox ssh --tmux=work --detach --cwd=code/voi/data-pipelines --window=data-pipelines -- omp --profile work'
+alias dbv='devbox ssh --tmux=work --detach --cwd=code/voi --window=voi -- omp --profile work'
+alias dbh='devbox ssh --tmux=work --detach --window=home -- omp --profile work --allow-home'
+{% endif %}
+
 # Use the private Claude account under ~/code/private or the "private" tmux
 # session; work (~/.claude, the default) everywhere else. See claude-resolve-account.
 claude() {
